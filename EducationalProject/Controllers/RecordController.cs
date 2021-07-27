@@ -53,10 +53,10 @@ namespace EducationalProject.Controllers
             }
         }
 
-        [HttpPut("{id}/{senderId}/{receiverId}/{equipmentId}")]
-        public void Put(int id, int senderId, int receiverId, int equipmentId)
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] Record partialrecord)
         {
-            Record record = CreateRecord(senderId, receiverId, equipmentId);
+            Record record = CreateRecord(partialrecord.senderId, partialrecord.receiverId, partialrecord.equipmentId);
             if (record.isValid(id))
             {
                 record.Id = id;
