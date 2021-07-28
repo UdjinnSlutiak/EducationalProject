@@ -1495,6 +1495,19 @@
         "runtime": {
           "bin/placeholder/Data.dll": {}
         }
+      },
+      "Logic/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Data": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Logic.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Logic.dll": {}
+        }
       }
     }
   },
@@ -5712,11 +5725,16 @@
       "type": "project",
       "path": "../Data/Data.csproj",
       "msbuildProject": "../Data/Data.csproj"
+    },
+    "Logic/1.0.0": {
+      "type": "project",
+      "path": "../Logic/Logic.csproj",
+      "msbuildProject": "../Logic/Logic.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
-      "Data >= 1.0.0"
+      "Logic >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -5725,11 +5743,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/eugene_johnovych/Projects/EquipmentControll/Logic/Logic.csproj",
-      "projectName": "Logic",
-      "projectPath": "/Users/eugene_johnovych/Projects/EquipmentControll/Logic/Logic.csproj",
+      "projectUniqueName": "/Users/eugene_johnovych/Projects/EquipmentControll/API/API.csproj",
+      "projectName": "API",
+      "projectPath": "/Users/eugene_johnovych/Projects/EquipmentControll/API/API.csproj",
       "packagesPath": "/Users/eugene_johnovych/.nuget/packages/",
-      "outputPath": "/Users/eugene_johnovych/Projects/EquipmentControll/Logic/obj/",
+      "outputPath": "/Users/eugene_johnovych/Projects/EquipmentControll/API/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/eugene_johnovych/.config/NuGet/NuGet.Config"
@@ -5744,8 +5762,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "/Users/eugene_johnovych/Projects/EquipmentControll/Data/Data.csproj": {
-              "projectPath": "/Users/eugene_johnovych/Projects/EquipmentControll/Data/Data.csproj"
+            "/Users/eugene_johnovych/Projects/EquipmentControll/Logic/Logic.csproj": {
+              "projectPath": "/Users/eugene_johnovych/Projects/EquipmentControll/Logic/Logic.csproj"
             }
           }
         }
@@ -5770,6 +5788,9 @@
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }

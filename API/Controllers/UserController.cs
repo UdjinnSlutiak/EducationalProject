@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Data.Models;
+using Logic;
+using Microsoft.AspNetCore.Mvc;
+
+namespace API.Controllers
+{
+    [Route("user")]
+    public class UserController : Controller
+    {
+        private UserLogic logic;
+        public UserController ()
+        {
+            logic = new UserLogic();
+        }
+
+        [HttpGet]
+        public IEnumerable<User> Get()
+        {
+            return logic.Get();
+        }
+
+        [HttpGet("{id}")]
+        public User Get(int id)
+        {
+            return logic.Get(id);
+        }
+
+        [HttpPost]
+        public void Post([FromBody] User user)
+        {
+            logic.Create(user);
+        }
+
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] User user)
+        {
+            logic.Update(id, user);
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            logic.Delete(id);
+        }
+
+    }
+}

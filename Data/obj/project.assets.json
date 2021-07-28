@@ -5803,11 +5803,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/eugene_johnovych/Projects/EducationalProject/Data/Data.csproj",
+      "projectUniqueName": "/Users/eugene_johnovych/Projects/EquipmentControll/Data/Data.csproj",
       "projectName": "Data",
-      "projectPath": "/Users/eugene_johnovych/Projects/EducationalProject/Data/Data.csproj",
+      "projectPath": "/Users/eugene_johnovych/Projects/EquipmentControll/Data/Data.csproj",
       "packagesPath": "/Users/eugene_johnovych/.nuget/packages/",
-      "outputPath": "/Users/eugene_johnovych/Projects/EducationalProject/Data/obj/",
+      "outputPath": "/Users/eugene_johnovych/Projects/EquipmentControll/Data/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/eugene_johnovych/.config/NuGet/NuGet.Config"

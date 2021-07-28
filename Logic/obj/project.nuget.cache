@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BGParBLMmUAdfU60u4lENnhzcPDHLcI4ZvBDeefpW4OQlf03nkUfINVvetABNIAy1q87UyjgQnVDpdlDUU5gqg==",
+  "dgSpecHash": "fPq5cYZ4FehXwNNSc1GwS3n/W+W4SIhQt92tH/uMuhX9HbVdb4vpa2I+kidv9HKZQihroLtnNZCJPGOdubQWvQ==",
   "success": true,
-  "projectFilePath": "/Users/eugene_johnovych/Projects/EducationalProject/Logic/Logic.csproj",
+  "projectFilePath": "/Users/eugene_johnovych/Projects/EquipmentControll/Logic/Logic.csproj",
   "expectedPackageFiles": [
     "/Users/eugene_johnovych/.nuget/packages/microsoft.csharp/4.5.0/microsoft.csharp.4.5.0.nupkg.sha512",
     "/Users/eugene_johnovych/.nuget/packages/microsoft.data.sqlclient/2.0.1/microsoft.data.sqlclient.2.0.1.nupkg.sha512",
