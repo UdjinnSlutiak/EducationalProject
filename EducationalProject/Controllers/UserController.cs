@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EducationalProject.Models;
+using Data.Models;
+using Logic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EducationalProject.Controllers
@@ -9,55 +10,40 @@ namespace EducationalProject.Controllers
     [Route("user")]
     public class UserController : Controller
     {
-
-        private readonly ProjectContext context;
-
-        public UserController (ProjectContext context)
+        private UserLogic logic;
+        public UserController ()
         {
-            this.context = context;
+            logic = new UserLogic();
         }
 
         [HttpGet]
         public IEnumerable<User> Get()
         {
-            return context.Users.ToList();
+            return logic.Get();
         }
 
         [HttpGet("{id}")]
         public User Get(int id)
         {
-            return context.Users.Find(id);
+            return logic.Get(id);
         }
 
         [HttpPost]
         public void Post([FromBody] User user)
         {
-            if (user.isValid())
-            {
-                context.Add(user);
-                context.SaveChangesAsync();
-            }
+            logic.Create(user);
         }
 
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] User user)
         {
-            if (user.isValid(id))
-            {
-                user.Id = id;
-                context.Update(user);
-                context.SaveChangesAsync();
-            }
+            logic.Update(id, user);
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            if (id > 0)
-            {
-                context.Remove(context.Users.Find(id));
-                context.SaveChangesAsync();
-            }
+            logic.Delete(id);
         }
 
     }

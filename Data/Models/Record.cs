@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EducationalProject.Models
+namespace Data.Models
 {
     public class Record
     {

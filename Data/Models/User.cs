@@ -1,15 +1,15 @@
-﻿namespace EducationalProject.Models
+﻿namespace Data.Models
 {
-    public class Equipment
+    public class User
     {
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public double Value { get; set; }
+        public string Position { get; set; }
 
         public bool isValid()
         {
-            if (!string.IsNullOrEmpty(this.Name) && this.Value > 0)
+            if (!string.IsNullOrEmpty(this.Name) && !string.IsNullOrEmpty(this.Position))
                 return true;
             else
                 return false;
@@ -22,6 +22,5 @@
             else
                 return false;
         }
-
     }
 }

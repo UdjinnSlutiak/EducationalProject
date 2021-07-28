@@ -1,0 +1,15 @@
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/bin/Debug/net5.0/Logic.deps.json
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/bin/Debug/net5.0/Logic.dll
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/bin/Debug/net5.0/ref/Logic.dll
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/bin/Debug/net5.0/Logic.pdb
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/bin/Debug/net5.0/Data.dll
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/bin/Debug/net5.0/Data.pdb
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/obj/Debug/net5.0/Logic.csproj.AssemblyReference.cache
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/obj/Debug/net5.0/Logic.GeneratedMSBuildEditorConfig.editorconfig
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/obj/Debug/net5.0/Logic.AssemblyInfoInputs.cache
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/obj/Debug/net5.0/Logic.AssemblyInfo.cs
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/obj/Debug/net5.0/Logic.csproj.CoreCompileInputs.cache
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/obj/Debug/net5.0/Logic.csproj.CopyComplete
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/obj/Debug/net5.0/Logic.dll
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/obj/Debug/net5.0/ref/Logic.dll
+/Users/eugene_johnovych/Projects/EducationalProject/Logic/obj/Debug/net5.0/Logic.pdb

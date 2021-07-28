@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace EducationalProject.Models
+namespace Data.Models
 {
     public class ProjectContext : DbContext
     {
@@ -9,11 +9,23 @@ namespace EducationalProject.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Record> Records { get; set; }
 
+        public ProjectContext()
+        {
+            Database.EnsureCreated();
+        }
+
         public ProjectContext(DbContextOptions<ProjectContext> options)
             : base (options)
         {
             Database.EnsureCreated();
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=localhost,1433; Database=ProjectDB; User=sa; Password=KAnITOWKA13");
+            }
+        }
     }
 }

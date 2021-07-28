@@ -4,14 +4,14 @@
     "/Users/eugene_johnovych/Projects/EducationalProject/EducationalProject/EducationalProject.csproj": {}
   },
   "projects": {
-    "/Users/eugene_johnovych/Projects/EducationalProject/EducationalProject/EducationalProject.csproj": {
+    "/Users/eugene_johnovych/Projects/EducationalProject/Data/Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/eugene_johnovych/Projects/EducationalProject/EducationalProject/EducationalProject.csproj",
-        "projectName": "EducationalProject",
-        "projectPath": "/Users/eugene_johnovych/Projects/EducationalProject/EducationalProject/EducationalProject.csproj",
+        "projectUniqueName": "/Users/eugene_johnovych/Projects/EducationalProject/Data/Data.csproj",
+        "projectName": "Data",
+        "projectPath": "/Users/eugene_johnovych/Projects/EducationalProject/Data/Data.csproj",
         "packagesPath": "/Users/eugene_johnovych/.nuget/packages/",
-        "outputPath": "/Users/eugene_johnovych/Projects/EducationalProject/EducationalProject/obj/",
+        "outputPath": "/Users/eugene_johnovych/Projects/EducationalProject/Data/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/eugene_johnovych/.config/NuGet/NuGet.Config"
@@ -70,9 +70,121 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.302/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/eugene_johnovych/Projects/EducationalProject/EducationalProject/EducationalProject.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/eugene_johnovych/Projects/EducationalProject/EducationalProject/EducationalProject.csproj",
+        "projectName": "EducationalProject",
+        "projectPath": "/Users/eugene_johnovych/Projects/EducationalProject/EducationalProject/EducationalProject.csproj",
+        "packagesPath": "/Users/eugene_johnovych/.nuget/packages/",
+        "outputPath": "/Users/eugene_johnovych/Projects/EducationalProject/EducationalProject/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/eugene_johnovych/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "/Users/eugene_johnovych/Projects/EducationalProject/Logic/Logic.csproj": {
+                "projectPath": "/Users/eugene_johnovych/Projects/EducationalProject/Logic/Logic.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
             },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.302/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/eugene_johnovych/Projects/EducationalProject/Logic/Logic.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/eugene_johnovych/Projects/EducationalProject/Logic/Logic.csproj",
+        "projectName": "Logic",
+        "projectPath": "/Users/eugene_johnovych/Projects/EducationalProject/Logic/Logic.csproj",
+        "packagesPath": "/Users/eugene_johnovych/.nuget/packages/",
+        "outputPath": "/Users/eugene_johnovych/Projects/EducationalProject/Logic/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/eugene_johnovych/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "/Users/eugene_johnovych/Projects/EducationalProject/Data/Data.csproj": {
+                "projectPath": "/Users/eugene_johnovych/Projects/EducationalProject/Data/Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

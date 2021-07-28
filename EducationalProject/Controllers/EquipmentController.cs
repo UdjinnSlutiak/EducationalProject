@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using EducationalProject.Models;
+using Data.Models;
+using Logic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EducationalProject.Controllers
@@ -11,54 +12,40 @@ namespace EducationalProject.Controllers
     [Route("equipment")]
     public class EquipmentController : Controller
     {
-        private readonly ProjectContext context;
-
-        public EquipmentController (ProjectContext context)
+        private EquipmentLogic logic;
+        public EquipmentController()
         {
-            this.context = context;
+            logic = new EquipmentLogic();
         }
 
         [HttpGet]
         public IEnumerable<Equipment> Get()
         {
-            return context.Equipments.ToList();
+            return logic.Get();
         }
 
         [HttpGet("{id}")]
         public Equipment Get(int id)
         {
-            return context.Equipments.Find(id);
+            return logic.Get(id);
         }
 
         [HttpPost]
         public void Post([FromBody] Equipment equipment)
         {
-            if (equipment.isValid())
-            {
-                context.Add(equipment);
-                context.SaveChangesAsync();
-            }
+            logic.Create(equipment);
         }
 
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Equipment equipment)
         {
-            if (equipment.isValid(id))
-            {
-                equipment.Id = id;
-                context.Update(equipment);
-                context.SaveChangesAsync();
-            }
+            logic.Update(id, equipment);
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            if (id > 0)
-            {
-                context.Remove(context.Equipments.Find(id));
-                context.SaveChangesAsync();
-            }
+            logic.Delete(id);
         }
     }
 }
