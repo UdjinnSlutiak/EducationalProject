@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Data.Repositories;
-using Data.Models;
+using Domain.Repositories;
+using Domain.Models;
 
 namespace Logic
 {

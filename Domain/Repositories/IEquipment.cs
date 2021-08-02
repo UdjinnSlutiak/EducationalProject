@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Data.Models;
+using Domain.Models;
 
-namespace Data.Repositories
+namespace Domain.Repositories
 {
     public interface IEquipment
     {

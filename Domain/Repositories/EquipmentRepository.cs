@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Data.Models;
-using Data.Repositories;
+using Domain.Models;
+using Domain.Repositories;
 
-namespace Data.Repositories
+namespace Domain.Repositories
 {
     public class EquipmentRepository : IEquipment
     {

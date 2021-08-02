@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Data.Models;
+using Domain.Models;
 using Logic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace Web.Api.Controllers
 {
     [Route("equipment")]
     public class EquipmentController : Controller

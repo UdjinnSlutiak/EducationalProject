@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Data.Models;
+using Domain.Models;
 using Logic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Controllers
+namespace Web.Api.Controllers
 {
     [Route("record")]
     public class RecordController : Controller

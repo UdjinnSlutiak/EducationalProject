@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Data.Models;
-using Data.Repositories;
+using Domain.Models;
+using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Repositories
+namespace Domain.Repositories
 {
     public class RecordRepository : IRecord
     {
