@@ -12,10 +12,10 @@ namespace API.Controllers
     [Route("record")]
     public class RecordController : Controller
     {
-        private RecordLogic logic;
-        public RecordController ()
+        private IRecordLogic logic;
+        public RecordController(IRecordLogic logic)
         {
-            logic = new();
+            this.logic = logic;
         }
 
         [HttpGet]

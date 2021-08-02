@@ -37,7 +37,7 @@ namespace Data.Repositories
                 return "Not Found";
         }
 
-        public void Create( Record partialRecord)
+        public void Create(Record partialRecord)
         {
             Record record = CreateRecord(partialRecord.senderId, partialRecord.receiverId, partialRecord.equipmentId);
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Models;
+using Data.Repositories;
+using Logic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +34,14 @@ namespace API
 
             services.AddDbContext<ProjectContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ProjectDB")));
+
+            services.AddTransient<IUser, UserRepository>();
+            services.AddTransient<IEquipment, EquipmentRepository>();
+            services.AddTransient<IRecord, RecordRepository>();
+
+            services.AddTransient<IUserLogic, UserLogic>();
+            services.AddTransient<IEquipmentLogic, EquipmentLogic>();
+            services.AddTransient<IRecordLogic, RecordLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

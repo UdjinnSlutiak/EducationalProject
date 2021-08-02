@@ -5,13 +5,13 @@ using Data.Repositories;
 
 namespace Logic
 {
-    public class EquipmentLogic : IEquipment
+    public class EquipmentLogic : IEquipmentLogic
     {
-        private EquipmentRepository repository;
+        private IEquipment repository;
 
-        public EquipmentLogic()
+        public EquipmentLogic(IEquipment repository)
         {
-            repository = new();
+            this.repository = repository;
         }
 
         public IEnumerable<Equipment> Get()

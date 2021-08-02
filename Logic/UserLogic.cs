@@ -5,13 +5,13 @@ using Data.Models;
 
 namespace Logic
 {
-    public class UserLogic : IUser
+    public class UserLogic : IUserLogic
     {
-        private UserRepository repository;
+        private IUser repository;
 
-        public UserLogic()
+        public UserLogic(IUser repository)
         {
-            repository = new();
+            this.repository = repository;
         }
 
         public IEnumerable<User> Get()

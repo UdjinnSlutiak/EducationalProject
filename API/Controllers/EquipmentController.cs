@@ -12,10 +12,10 @@ namespace API.Controllers
     [Route("equipment")]
     public class EquipmentController : Controller
     {
-        private EquipmentLogic logic;
-        public EquipmentController()
+        private IEquipmentLogic logic;
+        public EquipmentController(IEquipmentLogic logic)
         {
-            logic = new EquipmentLogic();
+            this.logic = logic;
         }
 
         [HttpGet]

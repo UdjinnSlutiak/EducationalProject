@@ -10,10 +10,10 @@ namespace API.Controllers
     [Route("user")]
     public class UserController : Controller
     {
-        private UserLogic logic;
-        public UserController ()
+        private IUserLogic logic;
+        public UserController (IUserLogic logic)
         {
-            logic = new UserLogic();
+            this.logic = logic;
         }
 
         [HttpGet]

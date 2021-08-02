@@ -5,13 +5,13 @@ using Data.Repositories;
 
 namespace Logic
 {
-    public class RecordLogic : IRecord
+    public class RecordLogic : IRecordLogic
     {
-        private RecordRepository repository;
+        private IRecord repository;
 
-        public RecordLogic()
+        public RecordLogic(IRecord repository)
         {
-            this.repository = new();
+            this.repository = repository;
         }
 
         public IEnumerable<string> Get()
