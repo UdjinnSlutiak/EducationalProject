@@ -22,5 +22,19 @@
             else
                 return false;
         }
+
+        public override bool Equals(object obj)
+        {
+            User user = obj as User;
+            if (this.Id == user.Id && this.Name == user.Name && this.Position == user.Position)
+                return true;
+            else
+                return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Id;
+        }
     }
 }

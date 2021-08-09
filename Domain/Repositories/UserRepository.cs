@@ -10,9 +10,9 @@ namespace Domain.Repositories
     {
         private readonly ProjectContext context;
 
-        public UserRepository()
+        public UserRepository(ProjectContext context)
         {
-            context = new();
+            this.context = context;
         }
 
         public IEnumerable<User> Get()
