@@ -7,9 +7,9 @@ namespace Logic
 {
     public class EquipmentLogic : IEquipmentLogic
     {
-        private IEquipment repository;
+        private IEquipmentRepository repository;
 
-        public EquipmentLogic(IEquipment repository)
+        public EquipmentLogic(IEquipmentRepository repository)
         {
             this.repository = repository;
         }

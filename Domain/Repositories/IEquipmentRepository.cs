@@ -3,7 +3,7 @@ using Domain.Models;
 
 namespace Domain.Repositories
 {
-    public interface IEquipment
+    public interface IEquipmentRepository
     {
         public IEnumerable<Equipment> Get();
 

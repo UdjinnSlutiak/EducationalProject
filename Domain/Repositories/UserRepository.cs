@@ -6,11 +6,11 @@ using Domain.Repositories;
 
 namespace Domain.Repositories
 {
-    public class UserRepository : IUser
+    public class UserRepository : IUserRepository
     {
-        private readonly ProjectContext context;
+        private readonly IProjectContext context;
 
-        public UserRepository(ProjectContext context)
+        public UserRepository(IProjectContext context)
         {
             this.context = context;
         }
@@ -22,12 +22,12 @@ namespace Domain.Repositories
 
         public User Get(int id)
         {
-            return context.Users.Find(id);
+            return context.Users.FirstOrDefault(u => u.Id == id);
         }
 
         public void Create(User user)
         {
-            if (user.isValid())
+            if (user.IsValid())
             {
                 context.Add(user);
                 context.SaveChangesAsync();
@@ -36,7 +36,7 @@ namespace Domain.Repositories
 
         public void Update(int id, User user)
         {
-            if (user.isValid(id))
+            if (user.IsValid(id))
             {
                 user.Id = id;
                 context.Update(user);
@@ -48,7 +48,7 @@ namespace Domain.Repositories
         {
             if (id > 0)
             {
-                context.Remove(context.Users.Find(id));
+                context.Remove<User>(context.Users.FirstOrDefault(u => u.Id == id));
                 context.SaveChangesAsync();
             }
         }

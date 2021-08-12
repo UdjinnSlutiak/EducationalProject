@@ -3,7 +3,7 @@ using Domain.Models;
 
 namespace Domain.Repositories
 {
-    public interface IRecord
+    public interface IRecordRepository
     {
         public IEnumerable<string> Get();
 

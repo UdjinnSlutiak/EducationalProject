@@ -5,14 +5,14 @@ using Domain.Repositories;
 
 namespace Domain.Repositories
 {
-    public class EquipmentRepository : IEquipment
+    public class EquipmentRepository : IEquipmentRepository
     {
 
-        private readonly ProjectContext context;
+        private readonly IProjectContext context;
 
-        public EquipmentRepository ()
+        public EquipmentRepository(IProjectContext context)
         {
-            context = new();
+            this.context = context;
         }
 
         public IEnumerable<Equipment> Get()
@@ -22,7 +22,7 @@ namespace Domain.Repositories
 
         public Equipment Get(int id)
         {
-            return context.Equipments.Find(id);
+            return context.Equipments.FirstOrDefault(e => e.Id == id);
         }
 
         public void Create(Equipment equipment)
@@ -48,7 +48,7 @@ namespace Domain.Repositories
         {
             if (id > 0)
             {
-                context.Remove(context.Equipments.Find(id));
+                context.Remove(context.Equipments.FirstOrDefault(e => e.Id == id));
                 context.SaveChangesAsync();
             }
         }

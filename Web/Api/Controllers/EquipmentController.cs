@@ -33,13 +33,15 @@ namespace Web.Api.Controllers
         [HttpPost]
         public void Post([FromBody] Equipment equipment)
         {
-            logic.Create(equipment);
+            if (ModelState.IsValid)
+                logic.Create(equipment);
         }
 
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Equipment equipment)
         {
-            logic.Update(id, equipment);
+            if (ModelState.IsValid)
+                logic.Update(id, equipment);
         }
 
         [HttpDelete("{id}")]

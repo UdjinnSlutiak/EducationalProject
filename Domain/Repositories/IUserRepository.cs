@@ -3,7 +3,7 @@ using Domain.Models;
 
 namespace Domain.Repositories
 {
-    public interface IUser
+    public interface IUserRepository
     {
         public IEnumerable<User> Get();
 

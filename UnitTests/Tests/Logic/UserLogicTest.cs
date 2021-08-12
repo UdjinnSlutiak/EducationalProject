@@ -15,7 +15,7 @@ namespace UnitTests.Tests.Logic
         public void GetReturnsUsersList()
         {
             //Arrange
-            var mock = new Mock<IUser>();
+            var mock = new Mock<IUserRepository>();
             mock.Setup(repo => repo.Get()).Returns(GetTestUsers());
             var controller = new UserLogic(mock.Object);
 
@@ -25,9 +25,8 @@ namespace UnitTests.Tests.Logic
             //Assert
             Assert.NotNull(result);
             Assert.NotEmpty(result);
-            _ = Assert.IsAssignableFrom<IEnumerable<User>>(result);
-            _ = result.Contains(new() { Id = 3, Name = "Zosia", Position = "Director" });
             Assert.Equal(3, result.Count());
+            _ = result.Contains(new() { Id = 3, Name = "Zosia", Position = "Director" });
         }
 
         [Fact]
@@ -35,7 +34,7 @@ namespace UnitTests.Tests.Logic
         {
             //Arrange
             int testUserId = 2;
-            var mock = new Mock<IUser>();
+            var mock = new Mock<IUserRepository>();
             mock.Setup(repo => repo.Get(testUserId))
                 .Returns(GetTestUsers().FirstOrDefault(user => user.Id == testUserId));
             var controller = new UserLogic(mock.Object);
@@ -53,7 +52,7 @@ namespace UnitTests.Tests.Logic
         public void CreateUserAddsUser()
         {
             //Arrange
-            var mock = new Mock<IUser>();
+            var mock = new Mock<IUserRepository>();
             var controller = new UserLogic(mock.Object);
 
             //Act
@@ -68,7 +67,7 @@ namespace UnitTests.Tests.Logic
         {
             //Arrange
             var testUserId = 1;
-            var mock = new Mock<IUser>();
+            var mock = new Mock<IUserRepository>();
             var controller = new UserLogic(mock.Object);
             var user = GetTestUsers().First(u => u.Id == testUserId);
 
@@ -85,7 +84,7 @@ namespace UnitTests.Tests.Logic
 
             //Arrange
             var testUserId = 1;
-            var mock = new Mock<IUser>();
+            var mock = new Mock<IUserRepository>();
             var controller = new UserLogic(mock.Object);
 
             //Act

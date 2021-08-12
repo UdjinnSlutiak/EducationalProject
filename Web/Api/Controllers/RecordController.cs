@@ -33,18 +33,21 @@ namespace Web.Api.Controllers
         [HttpPost]
         public void Post([FromBody] Record partialRecord)
         {
-            logic.Create(partialRecord);
+            if (ModelState.IsValid)
+                logic.Create(partialRecord);
         }
 
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Record partialRecord)
         {
-            logic.Update(id, partialRecord);
+            if (ModelState.IsValid)
+                logic.Update(id, partialRecord);
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            logic.Delete(id);
         }
     }
 }

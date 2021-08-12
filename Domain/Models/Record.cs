@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Models
@@ -7,8 +8,14 @@ namespace Domain.Models
     {
 
         public int Id { get; set; }
+
+        [Required]
         public User Sender { get; set; }
+
+        [Required]
         public User Receiver { get; set; }
+
+        [Required]
         public Equipment Equipment { get; set; }
 
         [NotMapped]

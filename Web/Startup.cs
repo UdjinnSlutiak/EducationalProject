@@ -35,13 +35,14 @@ namespace Web
             services.AddDbContext<ProjectContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ProjectDB")));
 
-            services.AddTransient<IUser, UserRepository>();
-            services.AddTransient<IEquipment, EquipmentRepository>();
-            services.AddTransient<IRecord, RecordRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IEquipmentRepository, EquipmentRepository>();
+            services.AddTransient<IRecordRepository, RecordRepository>();
 
             services.AddTransient<IUserLogic, UserLogic>();
             services.AddTransient<IEquipmentLogic, EquipmentLogic>();
             services.AddTransient<IRecordLogic, RecordLogic>();
+            services.AddTransient<IProjectContext, ProjectContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

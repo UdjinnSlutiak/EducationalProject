@@ -15,7 +15,7 @@ namespace UnitTests.Tests.Logic
         public void GetReturnsEquipmentList()
         {
             //Arrange
-            var mock = new Mock<IEquipment>();
+            var mock = new Mock<IEquipmentRepository>();
             mock.Setup(repo => repo.Get()).Returns(GetTestEquipments());
             var controller = new EquipmentLogic(mock.Object);
 
@@ -35,7 +35,7 @@ namespace UnitTests.Tests.Logic
         {
             //Arrange
             int testEquipmentId = 3;
-            var mock = new Mock<IEquipment>();
+            var mock = new Mock<IEquipmentRepository>();
             mock.Setup(repo => repo.Get(testEquipmentId))
                 .Returns(GetTestEquipments().FirstOrDefault(user => user.Id == testEquipmentId));
             var controller = new EquipmentLogic(mock.Object);
@@ -53,7 +53,7 @@ namespace UnitTests.Tests.Logic
         public void CreateEquipmentAddsEquipment()
         {
             //Arrange
-            var mock = new Mock<IEquipment>();
+            var mock = new Mock<IEquipmentRepository>();
             var controller = new EquipmentLogic(mock.Object);
             var equipment = GetTestEquipments().First();
 
@@ -69,7 +69,7 @@ namespace UnitTests.Tests.Logic
         {
             //Arrange
             var testEquipmentId = 1;
-            var mock = new Mock<IEquipment>();
+            var mock = new Mock<IEquipmentRepository>();
             var controller = new EquipmentLogic(mock.Object);
             var equipment = GetTestEquipments().First(e => e.Id == testEquipmentId);
 
@@ -86,7 +86,7 @@ namespace UnitTests.Tests.Logic
 
             //Arrange
             var testEquipmentId = 1;
-            var mock = new Mock<IEquipment>();
+            var mock = new Mock<IEquipmentRepository>();
             var controller = new EquipmentLogic(mock.Object);
 
             //Act

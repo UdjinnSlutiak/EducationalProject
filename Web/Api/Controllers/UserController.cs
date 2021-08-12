@@ -31,13 +31,15 @@ namespace Web.Api.Controllers
         [HttpPost]
         public void Post([FromBody] User user)
         {
-            logic.Create(user);
+            if (ModelState.IsValid)
+                logic.Create(user);
         }
 
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] User user)
         {
-            logic.Update(id, user);
+            if (ModelState.IsValid)
+                logic.Update(id, user);
         }
 
         [HttpDelete("{id}")]

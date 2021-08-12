@@ -7,9 +7,9 @@ namespace Logic
 {
     public class RecordLogic : IRecordLogic
     {
-        private IRecord repository;
+        private IRecordRepository repository;
 
-        public RecordLogic(IRecord repository)
+        public RecordLogic(IRecordRepository repository)
         {
             this.repository = repository;
         }

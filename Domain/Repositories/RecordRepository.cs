@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Repositories
 {
-    public class RecordRepository : IRecord
+    public class RecordRepository : IRecordRepository
     {
-        private readonly ProjectContext context;
+        private readonly IProjectContext context;
 
-        public RecordRepository()
+        public RecordRepository(IProjectContext context)
         {
-            this.context = new();
+            this.context = context;
         }
 
         public IEnumerable<string> Get()
@@ -63,16 +63,16 @@ namespace Domain.Repositories
         {
             if (id > 0)
             {
-                context.Remove(context.Records.Find(id));
+                context.Remove(context.Records.FirstOrDefault(r => r.Id == id));
                 context.SaveChangesAsync();
             }
         }
 
         private Record CreateRecord(int senderId, int receiverId, int equipmentId)
         {
-            User sender = context.Users.Find(senderId);
-            User receiver = context.Users.Find(receiverId);
-            Equipment equipment = context.Equipments.Find(equipmentId);
+            User sender = context.Users.FirstOrDefault(r => r.Id == senderId);
+            User receiver = context.Users.FirstOrDefault(r => r.Id == receiverId);
+            Equipment equipment = context.Equipments.FirstOrDefault(r => r.Id == equipmentId);
 
             return new()
             {

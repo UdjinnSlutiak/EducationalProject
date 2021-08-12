@@ -7,9 +7,9 @@ namespace Logic
 {
     public class UserLogic : IUserLogic
     {
-        private IUser repository;
+        private IUserRepository repository;
 
-        public UserLogic(IUser repository)
+        public UserLogic(IUserRepository repository)
         {
             this.repository = repository;
         }

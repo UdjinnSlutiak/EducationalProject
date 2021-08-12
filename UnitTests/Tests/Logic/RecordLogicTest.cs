@@ -21,7 +21,7 @@ namespace UnitTests.Tests.Logic
             foreach (var item in records)
                 recordStrings.Add($"{item.Sender} gave {item.Receiver} {item.Equipment}");
 
-            var mock = new Mock<IRecord>();
+            var mock = new Mock<IRecordRepository>();
             mock.Setup(repo => repo.Get()).Returns(recordStrings);
             var controller = new RecordLogic(mock.Object);
 
@@ -43,7 +43,7 @@ namespace UnitTests.Tests.Logic
             int testRecordId = 3;
             Record record = GetTestRecords().First(r => r.Id == testRecordId);
 
-            var mock = new Mock<IRecord>();
+            var mock = new Mock<IRecordRepository>();
             mock.Setup(repo => repo.Get(testRecordId))
                 .Returns($"{record.Sender} gave {record.Receiver} {record.Equipment}");
             var controller = new RecordLogic(mock.Object);
@@ -61,7 +61,7 @@ namespace UnitTests.Tests.Logic
         public void CreateRecordAddsRecord()
         {
             //Arrange
-            var mock = new Mock<IRecord>();
+            var mock = new Mock<IRecordRepository>();
             var controller = new RecordLogic(mock.Object);
             var record = GetTestRecords().First();
 
@@ -77,7 +77,7 @@ namespace UnitTests.Tests.Logic
         {
             //Arrange
             var testRecordId = 2;
-            var mock = new Mock<IRecord>();
+            var mock = new Mock<IRecordRepository>();
             var controller = new RecordLogic(mock.Object);
             var record = GetTestRecords().First(r => r.Id == testRecordId);
 
@@ -93,7 +93,7 @@ namespace UnitTests.Tests.Logic
         {
             //Arrange
             var testRecordId = 3;
-            var mock = new Mock<IRecord>();
+            var mock = new Mock<IRecordRepository>();
             var controller = new RecordLogic(mock.Object);
 
             //Act
