@@ -1,21 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+﻿// <copyright file="Program.cs" company="Eugene Slutiak">
+//     Equipment Controller Project.
+// </copyright>
 
-namespace Web
+namespace EquipmentControll.Web
 {
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Hosting;
+
+    /// <summary>
+    /// Default Program class.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Default Main method.
+        /// Builds and runs HostBuilder with default configuration.
+        /// </summary>
+        /// <param name="args">Arguments array.</param>
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
         }
 
+        /// <summary>
+        /// Default CreateHostBuilder method.
+        /// Creates HostBuilder with default configuration.
+        /// </summary>
+        /// <param name="args">Arguments array.</param>
+        /// <returns>HostBuilder with default configuration.</returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>

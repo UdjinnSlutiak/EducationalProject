@@ -40,4 +40,9 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FE334E34-6A85-4859-AA8E-629B0196DF9B}
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.StandardHeader = $1
+		$1.Text = @Copyright ${CopyrightHolder}\n\nEquipment Controller Project
+	EndGlobalSection
 EndGlobal

@@ -1,34 +1,45 @@
-﻿using Xunit;
-using Moq;
-using System.Collections.Generic;
-using System.Linq;
-using Logic;
-using Domain.Models;
-using Domain.Repositories;
-using Record = Domain.Models.Record;
+﻿// <copyright file="RecordLogicTest.cs" company="Eugene Slutiak">
+//     Equipment Controller Project.
+// </copyright>
 
-namespace UnitTests.Tests.Logic
+namespace EquipmentControll.UnitTests.Tests.Logic
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using EquipmentControll.Domain.Models;
+    using EquipmentControll.Domain.Repositories;
+    using EquipmentControll.Logic;
+    using Moq;
+    using Xunit;
+    using Record = EquipmentControll.Domain.Models.Record;
+
+    /// <summary>
+    /// xUnit Test class.
+    /// </summary>
     public class RecordLogicTest
     {
-
+        /// <summary>
+        /// Tests if RecordLogic Get method returns Record collection correctly.
+        /// </summary>
         [Fact]
         public void GetReturnsRecordList()
         {
-            //Arrange
-            List<Record> records = GetTestRecords();
+            // Arrange
+            List<Record> records = this.GetTestRecords();
             List<string> recordStrings = new();
             foreach (var item in records)
+            {
                 recordStrings.Add($"{item.Sender} gave {item.Receiver} {item.Equipment}");
+            }
 
             var mock = new Mock<IRecordRepository>();
             mock.Setup(repo => repo.Get()).Returns(recordStrings);
             var controller = new RecordLogic(mock.Object);
 
-            //Act
+            // Act
             var result = controller.Get();
 
-            //Assert
+            // Assert
             Assert.NotNull(result);
             Assert.NotEmpty(result);
             _ = Assert.IsAssignableFrom<IEnumerable<string>>(result);
@@ -36,75 +47,90 @@ namespace UnitTests.Tests.Logic
             Assert.Equal(3, result.Count());
         }
 
+        /// <summary>
+        /// Tests if RecordLogic Get method returns Record instance by Id correctly.
+        /// </summary>
         [Fact]
         public void GetByIdReturnsRecord()
         {
-            //Arrange
+            // Arrange
             int testRecordId = 3;
-            Record record = GetTestRecords().First(r => r.Id == testRecordId);
+            Record record = this.GetTestRecords().First(r => r.Id == testRecordId);
 
             var mock = new Mock<IRecordRepository>();
             mock.Setup(repo => repo.Get(testRecordId))
                 .Returns($"{record.Sender} gave {record.Receiver} {record.Equipment}");
             var controller = new RecordLogic(mock.Object);
 
-            //Act
+            // Act
             var result = controller.Get(testRecordId);
 
-            //Assert
+            // Assert
             Assert.NotNull(result);
             Assert.IsType<string>(result);
-            result.Equals(GetTestRecords().FirstOrDefault(user => user.Id == testRecordId));
+            result.Equals(this.GetTestRecords().FirstOrDefault(user => user.Id == testRecordId));
         }
 
+        /// <summary>
+        /// Tests if RecordLogic Create method adds Record instance correctly.
+        /// </summary>
         [Fact]
         public void CreateRecordAddsRecord()
         {
-            //Arrange
+            // Arrange
             var mock = new Mock<IRecordRepository>();
             var controller = new RecordLogic(mock.Object);
-            var record = GetTestRecords().First();
+            var record = this.GetTestRecords().First();
 
-            //Act
+            // Act
             controller.Create(record);
 
-            //Assert
+            // Assert
             mock.Verify(r => r.Create(record));
         }
 
+        /// <summary>
+        /// Tests if RecordLogic Update method changes Record instance information correctly.
+        /// </summary>
         [Fact]
         public void UpdateRecordChangesInformation()
         {
-            //Arrange
+            // Arrange
             var testRecordId = 2;
             var mock = new Mock<IRecordRepository>();
             var controller = new RecordLogic(mock.Object);
-            var record = GetTestRecords().First(r => r.Id == testRecordId);
+            var record = this.GetTestRecords().First(r => r.Id == testRecordId);
 
-            //Act
+            // Act
             controller.Update(2, record);
 
-            //Assert
+            // Assert
             mock.Verify(r => r.Update(2, record));
         }
 
+        /// <summary>
+        /// Tests if RecordLogic Delete method removes Record instance correctly.
+        /// </summary>
         [Fact]
         public void DeleteRecordRemovesRecord()
         {
-            //Arrange
+            // Arrange
             var testRecordId = 3;
             var mock = new Mock<IRecordRepository>();
             var controller = new RecordLogic(mock.Object);
 
-            //Act
+            // Act
             controller.Delete(testRecordId);
 
-            //Assert
+            // Assert
             mock.Verify(r => r.Delete(testRecordId));
-
         }
 
-        private static List<Record> GetTestRecords()
+        /// <summary>
+        /// Creates Records collection.
+        /// </summary>
+        /// <returns>Records List.</returns>
+        private List<Record> GetTestRecords()
         {
             Equipment mob = new() { Id = 1, Name = "Mob", Value = 300 };
             Equipment pan = new() { Id = 2, Name = "Pan", Value = 500 };
@@ -119,6 +145,5 @@ namespace UnitTests.Tests.Logic
                 new() { Id = 3, Sender = ostap, Receiver = petro, Equipment = mob }
             };
         }
-
     }
 }

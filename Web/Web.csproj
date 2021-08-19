@@ -13,6 +13,7 @@
     <None Remove="Repository\" />
     <None Remove="Api\" />
     <None Remove="Api\Controllers\" />
+    <None Remove="StyleCop.MSBuild" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Logic\Logic.csproj">
@@ -25,5 +26,11 @@
   <ItemGroup>
     <Folder Include="Api\" />
     <Folder Include="Api\Controllers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="StyleCop.MSBuild" Version="6.2.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>

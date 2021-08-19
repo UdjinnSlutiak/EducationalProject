@@ -7,4 +7,22 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="StyleCop.MSBuild" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="StyleCop.MSBuild" Version="6.2.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <StandardHeader IncludeInNewFiles="True" Text="Copyright (c) Eugene Slutiak&#xA;&#xA;Equipment Controller Project" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>

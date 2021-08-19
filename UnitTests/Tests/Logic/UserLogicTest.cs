@@ -1,100 +1,124 @@
-﻿using Xunit;
-using Moq;
-using System.Collections.Generic;
-using System.Linq;
-using Logic;
-using Domain.Models;
-using Domain.Repositories;
+﻿// <copyright file="UserLogicTest.cs" company="Eugene Slutiak">
+//     Equipment Controller Project.
+// </copyright>
 
-namespace UnitTests.Tests.Logic
+namespace EquipmentControll.UnitTests.Tests.Logic
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using EquipmentControll.Domain.Models;
+    using EquipmentControll.Domain.Repositories;
+    using EquipmentControll.Logic;
+    using Moq;
+    using Xunit;
+
+    /// <summary>
+    /// xUnit Test class.
+    /// </summary>
     public class UserLogicTest
     {
-
+        /// <summary>
+        /// Tests if UserLogic Get method returns Users collection correctly.
+        /// </summary>
         [Fact]
         public void GetReturnsUsersList()
         {
-            //Arrange
+            // Arrange
             var mock = new Mock<IUserRepository>();
-            mock.Setup(repo => repo.Get()).Returns(GetTestUsers());
+            mock.Setup(repo => repo.Get()).Returns(this.GetTestUsers());
             var controller = new UserLogic(mock.Object);
 
-            //Act
+            // Act
             var result = controller.Get();
 
-            //Assert
+            // Assert
             Assert.NotNull(result);
             Assert.NotEmpty(result);
             Assert.Equal(3, result.Count());
             _ = result.Contains(new() { Id = 3, Name = "Zosia", Position = "Director" });
         }
 
+        /// <summary>
+        /// Tests if UserLogic Get method returns User instance by Id correctly.
+        /// </summary>
         [Fact]
         public void GetByIdReturnsUser()
         {
-            //Arrange
+            // Arrange
             int testUserId = 2;
             var mock = new Mock<IUserRepository>();
             mock.Setup(repo => repo.Get(testUserId))
-                .Returns(GetTestUsers().FirstOrDefault(user => user.Id == testUserId));
+                .Returns(this.GetTestUsers().FirstOrDefault(user => user.Id == testUserId));
             var controller = new UserLogic(mock.Object);
 
-            //Act
+            // Act
             var result = controller.Get(testUserId);
 
-            //Assert
+            // Assert
             Assert.NotNull(result);
             Assert.IsType<User>(result);
-            result.Equals(GetTestUsers().FirstOrDefault(user => user.Id == testUserId));
+            result.Equals(this.GetTestUsers().FirstOrDefault(user => user.Id == testUserId));
         }
 
+        /// <summary>
+        /// Tests if UserLogic Create method adds User instance correctly.
+        /// </summary>
         [Fact]
         public void CreateUserAddsUser()
         {
-            //Arrange
+            // Arrange
             var mock = new Mock<IUserRepository>();
             var controller = new UserLogic(mock.Object);
 
-            //Act
-            controller.Create(GetTestUsers().First());
+            // Act
+            controller.Create(this.GetTestUsers().First());
 
-            //Assert
-            mock.Verify(r => r.Create(GetTestUsers().First()));
+            // Assert
+            mock.Verify(r => r.Create(this.GetTestUsers().First()));
         }
 
+        /// <summary>
+        /// Tests if UserLogic Update method changes User instance information correctly.
+        /// </summary>
         [Fact]
         public void UpdateUserChangesInformation()
         {
-            //Arrange
+            // Arrange
             var testUserId = 1;
             var mock = new Mock<IUserRepository>();
             var controller = new UserLogic(mock.Object);
-            var user = GetTestUsers().First(u => u.Id == testUserId);
+            var user = this.GetTestUsers().First(u => u.Id == testUserId);
 
-            //Act
+            // Act
             controller.Update(testUserId, user);
 
-            //Assert
+            // Assert
             mock.Verify(r => r.Update(testUserId, user));
         }
 
+        /// <summary>
+        /// Tests if UserLogic Delete method removes User instance correctly.
+        /// </summary>
         [Fact]
         public void DeleteUserRemovesUser()
         {
-
-            //Arrange
+            // Arrange
             var testUserId = 1;
             var mock = new Mock<IUserRepository>();
             var controller = new UserLogic(mock.Object);
 
-            //Act
+            // Act
             controller.Delete(testUserId);
 
-            //Assert
+            // Assert
             mock.Verify(r => r.Delete(testUserId));
         }
 
-        private static List<User> GetTestUsers()
+        /// <summary>
+        /// Creates Users collection.
+        /// </summary>
+        /// <returns>Records List.</returns>
+        private List<User> GetTestUsers()
         {
             return new()
             {
