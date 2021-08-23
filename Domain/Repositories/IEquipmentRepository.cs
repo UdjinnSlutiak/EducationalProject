@@ -36,7 +36,7 @@ namespace EquipmentControll.Domain.Repositories
         /// </summary>
         /// <param name="id">Equipment to update Id value.</param>
         /// <param name="equipment">Equipment instance that contains information to update.</param>
-        public void Update(int id, Equipment equipment);
+        public void Update(Equipment equipment);
 
         /// <summary>
         /// Method to delete Equipment.

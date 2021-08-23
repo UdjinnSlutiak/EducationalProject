@@ -16,14 +16,14 @@ namespace EquipmentControll.Logic
         /// Method to get Records from Context.
         /// </summary>
         /// <returns>IEnumerable collection of Record ToString strings.</returns>
-        public IEnumerable<string> Get();
+        public IEnumerable<Record> Get();
 
         /// <summary>
         /// Overrided Get method to get Record by Id from Context.
         /// </summary>
         /// <param name="id">Record to find Id value.</param>
         /// <returns>String of found Record instance ToString method.</returns>
-        public string Get(int id);
+        public Record Get(int id);
 
         /// <summary>
         /// Method to create Record.
@@ -36,7 +36,7 @@ namespace EquipmentControll.Logic
         /// </summary>
         /// <param name="id">Record to update Id value.</param>
         /// <param name="record">Record instance that contains information to update.</param>
-        public void Update(int id, Record record);
+        public void Update(Record record);
 
         /// <summary>
         /// Method to delete Record.

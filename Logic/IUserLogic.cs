@@ -34,9 +34,8 @@ namespace EquipmentControll.Logic
         /// <summary>
         /// Method to update User.
         /// </summary>
-        /// <param name="id">User to update Id value.</param>
         /// <param name="user">User instance that contains information to update.</param>
-        public void Update(int id, User user);
+        public void Update(User user);
 
         /// <summary>
         /// Method to delete User.

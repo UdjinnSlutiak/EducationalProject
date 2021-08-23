@@ -12,7 +12,8 @@ namespace EquipmentControll.Web.Api.Controllers
     /// <summary>
     /// CRUD API Record Controller.
     /// </summary>
-    [Route("record")]
+    [ApiController]
+    [Route("records")]
     public class RecordController : Controller
     {
         /// <summary>
@@ -35,7 +36,7 @@ namespace EquipmentControll.Web.Api.Controllers
         /// </summary>
         /// <returns>IEnumerable collection of Record inastances.</returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Record> Get()
         {
             return this.logic.Get();
         }
@@ -46,7 +47,7 @@ namespace EquipmentControll.Web.Api.Controllers
         /// <param name="id">Record to find Id value.</param>
         /// <returns>Record instance.</returns>
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Record Get(int id)
         {
             return this.logic.Get(id);
         }
@@ -56,12 +57,9 @@ namespace EquipmentControll.Web.Api.Controllers
         /// </summary>
         /// <param name="partialRecord">Record instance to add to database.</param>
         [HttpPost]
-        public void Post([FromBody] Record partialRecord)
+        public void Post(Record partialRecord)
         {
-            if (ModelState.IsValid)
-            {
-                this.logic.Create(partialRecord);
-            }
+            this.logic.Create(partialRecord);
         }
 
         /// <summary>
@@ -70,12 +68,9 @@ namespace EquipmentControll.Web.Api.Controllers
         /// <param name="id">Record to update Id value.</param>
         /// <param name="partialRecord">Record instance that contains information to update.</param>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Record partialRecord)
+        public void Put(Record partialRecord)
         {
-            if (ModelState.IsValid)
-            {
-                this.logic.Update(id, partialRecord);
-            }
+            this.logic.Update(partialRecord);
         }
 
         /// <summary>

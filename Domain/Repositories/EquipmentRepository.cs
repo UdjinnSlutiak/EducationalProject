@@ -16,14 +16,14 @@ namespace EquipmentControll.Domain.Repositories
         /// <summary>
         /// Variable uses to have access to database.
         /// </summary>
-        private readonly IProjectContext context;
+        private readonly ProjectContext context;
 
         /// <summary>
         /// Initializes a new instance of the EquipmentRepository class.
         /// Receives IProjectContext instance by dependency injection to work with database.
         /// </summary>
         /// <param name="context">IProjectContext instance received by dependency injection</param>
-        public EquipmentRepository(IProjectContext context)
+        public EquipmentRepository(ProjectContext context)
         {
             this.context = context;
         }
@@ -44,7 +44,7 @@ namespace EquipmentControll.Domain.Repositories
         /// <returns>Equipment instance.</returns>
         public Equipment Get(int id)
         {
-            return this.context.Equipments.FirstOrDefault(e => e.Id == id);
+            return this.context.Equipments.Find(id);
         }
 
         /// <summary>
@@ -53,8 +53,8 @@ namespace EquipmentControll.Domain.Repositories
         /// <param name="equipment">Equipment instance to add to database.</param>
         public void Create(Equipment equipment)
         {
-                this.context.Add(equipment);
-                this.context.SaveChangesAsync();
+            this.context.Add(equipment);
+            this.context.SaveChanges();
         }
 
         /// <summary>
@@ -62,11 +62,10 @@ namespace EquipmentControll.Domain.Repositories
         /// </summary>
         /// <param name="id">Equipment to update Id value.</param>
         /// <param name="equipment">Equipment instance that contains information to update.</param>
-        public void Update(int id, Equipment equipment)
+        public void Update(Equipment equipment)
         {
-                equipment.Id = id;
-                this.context.Update(equipment);
-                this.context.SaveChangesAsync();
+            this.context.Update(equipment);
+            this.context.SaveChanges();
         }
 
         /// <summary>
@@ -75,11 +74,8 @@ namespace EquipmentControll.Domain.Repositories
         /// <param name="id">Equipment to delete Id value.</param>
         public void Delete(int id)
         {
-            if (id > 0)
-            {
-                this.context.Remove(this.context.Equipments.FirstOrDefault(e => e.Id == id));
-                this.context.SaveChangesAsync();
-            }
+            this.context.Remove(new Equipment { Id = id });
+            this.context.SaveChanges();
         }
     }
 }

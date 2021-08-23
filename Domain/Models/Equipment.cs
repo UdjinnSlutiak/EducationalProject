@@ -25,11 +25,11 @@ namespace EquipmentControll.Domain.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets Equipment object Value.
+        /// Gets or sets Equipment object Price.
         /// </summary>
         [Required]
         [DataType(DataType.Currency)]
         [Range(1, 1000000)]
-        public double Value { get; set; }
+        public decimal Price { get; set; }
     }
 }

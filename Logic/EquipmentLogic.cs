@@ -61,9 +61,9 @@ namespace EquipmentControll.Logic
         /// </summary>
         /// <param name="id">Equipment to update Id value.</param>
         /// <param name="equipment">Equipment instance that contains information to update.</param>
-        public void Update(int id, Equipment equipment)
+        public void Update(Equipment equipment)
         {
-            this.repository.Update(id, equipment);
+            this.repository.Update(equipment);
         }
 
         /// <summary>

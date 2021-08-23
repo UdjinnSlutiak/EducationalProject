@@ -12,7 +12,8 @@ namespace EquipmentControll.Web.Api.Controllers
     /// <summary>
     /// CRUD API Equipment Controller.
     /// </summary>
-    [Route("equipment")]
+    [ApiController]
+    [Route("equipments")]
     public class EquipmentController : Controller
     {
         /// <summary>
@@ -56,12 +57,9 @@ namespace EquipmentControll.Web.Api.Controllers
         /// </summary>
         /// <param name="equipment">Equipment instance to add to database.</param>
         [HttpPost]
-        public void Post([FromBody] Equipment equipment)
+        public void Post(Equipment equipment)
         {
-            if (ModelState.IsValid)
-            {
-                this.logic.Create(equipment);
-            }
+            this.logic.Create(equipment);
         }
 
         /// <summary>
@@ -70,12 +68,9 @@ namespace EquipmentControll.Web.Api.Controllers
         /// <param name="id">Equipment to update Id value.</param>
         /// <param name="equipment">Equipment instance that contains information to update.</param>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Equipment equipment)
+        public void Put(Equipment equipment)
         {
-            if (ModelState.IsValid)
-            {
-                this.logic.Update(id, equipment);
-            }
+            this.logic.Update(equipment);
         }
 
         /// <summary>

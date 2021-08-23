@@ -59,11 +59,10 @@ namespace EquipmentControll.Logic
         /// <summary>
         /// Realization of IUserLogic Update method.
         /// </summary>
-        /// <param name="id">User to update Id value.</param>
         /// <param name="user">User instance that contains information to update.</param>
-        public void Update(int id, User user)
+        public void Update(User user)
         {
-            this.repository.Update(id, user);
+            this.repository.Update(user);
         }
 
         /// <summary>

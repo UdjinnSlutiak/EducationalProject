@@ -5,14 +5,18 @@
 namespace EquipmentControll.Web.Api.Controllers
 {
     using System.Collections.Generic;
+    using System.Linq;
     using EquipmentControll.Domain.Models;
+    using EquipmentControll.Domain.Models.BindingTargets;
+    using EquipmentControll.Domain.Models.Dto;
     using EquipmentControll.Logic;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     /// CRUD API User Controller.
     /// </summary>
-    [Route("user")]
+    [ApiController]
+    [Route("users")]
     public class UserController : Controller
     {
         /// <summary>
@@ -33,11 +37,11 @@ namespace EquipmentControll.Web.Api.Controllers
         /// <summary>
         /// User CRUD Get method.
         /// </summary>
-        /// <returns>IEnumerable collection of User inastances.</returns>
+        /// <returns>IEnumerable collection of UserDto inastances.</returns>
         [HttpGet]
-        public IEnumerable<User> Get()
+        public IEnumerable<UserDto> Get()
         {
-            return this.logic.Get();
+            return this.logic.Get().Select(u => new UserDto(u));
         }
 
         /// <summary>
@@ -46,36 +50,40 @@ namespace EquipmentControll.Web.Api.Controllers
         /// <param name="id">User to find Id value.</param>
         /// <returns>User instance.</returns>
         [HttpGet("{id}")]
-        public User Get(int id)
+        public IActionResult Get(int id)
         {
-            return this.logic.Get(id);
+            User user = this.logic.Get(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            UserDto userDto = new UserDto(user);
+
+            return Ok(userDto);
         }
 
         /// <summary>
         /// User CRUD Create method.
         /// </summary>
-        /// <param name="user">User instance to add to database.</param>
+        /// <param name="target">User instance to add to database.</param>
         [HttpPost]
-        public void Post([FromBody] User user)
+        public IActionResult Create(UserBindingTarget target)
         {
-            if (ModelState.IsValid)
-            {
-                this.logic.Create(user);
-            }
+            User user = target.ToUser();
+            this.logic.Create(user);
+            return Ok(user);
         }
 
         /// <summary>
         /// User CRUD Update method.
         /// </summary>
-        /// <param name="id">User to update Id value.</param>
         /// <param name="user">User instance that contains information to update.</param>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] User user)
+        public void Update(User user)
         {
-            if (ModelState.IsValid)
-            {
-                this.logic.Update(id, user);
-            }
+            this.logic.Update(user);
         }
 
         /// <summary>

@@ -4,6 +4,7 @@
 
 namespace EquipmentControll.Web
 {
+    using Domain.Models;
     using EquipmentControll.Domain.Models;
     using EquipmentControll.Domain.Repositories;
     using EquipmentControll.Logic;
@@ -52,7 +53,6 @@ namespace EquipmentControll.Web
             services.AddTransient<IUserLogic, UserLogic>();
             services.AddTransient<IEquipmentLogic, EquipmentLogic>();
             services.AddTransient<IRecordLogic, RecordLogic>();
-            services.AddTransient<IProjectContext, ProjectContext>();
         }
 
         /// <summary>
@@ -66,6 +66,8 @@ namespace EquipmentControll.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                SeedData.EnsureDataPopulated(app.ApplicationServices.CreateScope()
+                    .ServiceProvider.GetRequiredService<ProjectContext>());
             }
 
             app.UseHttpsRedirection();

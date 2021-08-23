@@ -32,7 +32,7 @@ namespace EquipmentControll.Logic
         /// Realization of IRecordLogic Get method.
         /// </summary>
         /// <returns>IEnumerable collection of Record ToString strings.</returns>
-        public IEnumerable<string> Get()
+        public IEnumerable<Record> Get()
         {
             return this.repository.Get();
         }
@@ -42,7 +42,7 @@ namespace EquipmentControll.Logic
         /// </summary>
         /// <param name="id">Equipment to find Id value.</param>
         /// <returns>String of found Record instance ToString method.</returns>
-        public string Get(int id)
+        public Record Get(int id)
         {
             return this.repository.Get(id);
         }
@@ -61,9 +61,9 @@ namespace EquipmentControll.Logic
         /// </summary>
         /// <param name="id">Record to update Id value.</param>
         /// <param name="record">'Partial' Record instance that contains information to update.</param>
-        public void Update(int id, Record record)
+        public void Update(Record record)
         {
-            this.repository.Update(id, record);
+            this.repository.Update(record);
         }
 
         /// <summary>

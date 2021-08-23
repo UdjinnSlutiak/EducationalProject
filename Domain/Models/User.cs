@@ -17,12 +17,35 @@ namespace EquipmentControll.Domain.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets User object Name.
+        /// Gets or sets User object last name.
         /// </summary>
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(30, MinimumLength = 4)]
-        public string Name { get; set; }
+        [StringLength(30, MinimumLength = 3)]
+        public string FirstName { get; set; }
+
+        /// <summary>
+        /// Gets or sets User object first name.
+        /// </summary>
+        [Required]
+        [DataType(DataType.Text)]
+        [StringLength(30, MinimumLength = 3)]
+        public string LastName { get; set; }
+
+        /// <summary>
+        /// Gets or sets User object username.
+        /// </summary>
+        [Required]
+        [RegularExpression(@"^[a-zA-Z0-9_]{5,20}$")]
+        public string Username { get; set; }
+
+        /// <summary>
+        /// Gets or sets User object password.
+        /// </summary>
+        [Required]
+        [DataType(DataType.Password)]
+        [StringLength(30, MinimumLength = 6)]
+        public string Password { get; set; }
 
         /// <summary>
         /// Gets or sets User object Position.
@@ -30,7 +53,7 @@ namespace EquipmentControll.Domain.Models
         [Required]
         [DataType(DataType.Text)]
         [StringLength(15, MinimumLength = 4)]
-        public string Position { get; set; }
+        public string Role { get; set; }
 
         /// <summary>
         /// Overrided base Equals method.
@@ -54,7 +77,7 @@ namespace EquipmentControll.Domain.Models
         /// <returns>Boolean comparison result. True if equal, false if not.</returns>
         public bool Equals(User user)
         {
-            return this.Id == user.Id && this.Name == user.Name && this.Position == user.Position;
+            return this.Id == user.Id;
         }
 
         /// <summary>

@@ -16,14 +16,14 @@ namespace EquipmentControll.Domain.Repositories
         /// <summary>
         /// Variable uses to have access to database.
         /// </summary>
-        private readonly IProjectContext context;
+        private readonly ProjectContext context;
 
         /// <summary>
         /// Initializes a new instance of the UserRepository class.
         /// Receives IProjectContext instance by dependency injection to work with database.
         /// </summary>
         /// <param name="context">IProjectContext instance received by dependency injection.</param>
-        public UserRepository(IProjectContext context)
+        public UserRepository(ProjectContext context)
         {
             this.context = context;
         }
@@ -44,7 +44,7 @@ namespace EquipmentControll.Domain.Repositories
         /// <returns>User instance.</returns>
         public User Get(int id)
         {
-            return this.context.Users.FirstOrDefault(u => u.Id == id);
+            return this.context.Users.Find(id);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace EquipmentControll.Domain.Repositories
         public void Create(User user)
         {
             this.context.Add(user);
-            this.context.SaveChangesAsync();
+            this.context.SaveChanges();
         }
 
         /// <summary>
@@ -62,11 +62,10 @@ namespace EquipmentControll.Domain.Repositories
         /// </summary>
         /// <param name="id">User to update Id value.</param>
         /// <param name="user">User instance that contains information to update.</param>
-        public void Update(int id, User user)
+        public void Update(User user)
         {
-            user.Id = id;
             this.context.Update(user);
-            this.context.SaveChangesAsync();
+            this.context.SaveChanges();
         }
 
         /// <summary>
@@ -77,8 +76,8 @@ namespace EquipmentControll.Domain.Repositories
         {
             if (id > 0)
             {
-                this.context.Remove<User>(this.context.Users.FirstOrDefault(u => u.Id == id));
-                this.context.SaveChangesAsync();
+                this.context.Remove(new User { Id = id });
+                this.context.SaveChanges();
             }
         }
     }
