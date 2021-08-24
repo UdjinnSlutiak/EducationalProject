@@ -4,7 +4,6 @@
 
 namespace EquipmentControll.Web
 {
-    using Domain.Models;
     using EquipmentControll.Domain.Models;
     using EquipmentControll.Domain.Repositories;
     using EquipmentControll.Logic;
