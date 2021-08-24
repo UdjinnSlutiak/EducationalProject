@@ -1,10 +1,11 @@
-﻿// <copyright file="IRecordLogic.cs" company="Eugene Slutiak">
-//     Equipment Controller Project.
+﻿// <copyright file="IRecordLogic.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace EquipmentControll.Logic
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using EquipmentControll.Domain.Models;
 
     /// <summary>
@@ -15,33 +16,37 @@ namespace EquipmentControll.Logic
         /// <summary>
         /// Method to get Records from Context.
         /// </summary>
+        /// <param name="offset">Count of Records to skip.</param>
+        /// <param name="count">Count of Records to take.</param>
         /// <returns>IEnumerable collection of Record ToString strings.</returns>
-        public IEnumerable<string> Get();
+        public Task<IEnumerable<Record>> GetRecordsAsync(int offset, int count);
 
         /// <summary>
         /// Overrided Get method to get Record by Id from Context.
         /// </summary>
         /// <param name="id">Record to find Id value.</param>
         /// <returns>String of found Record instance ToString method.</returns>
-        public string Get(int id);
+        public Task<Record> GetRecordByIdAsync(int id);
 
         /// <summary>
         /// Method to create Record.
         /// </summary>
         /// <param name="record">Record instance to add to database.</param>
-        public void Create(Record record);
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task CreateRecordAsync(Record record);
 
         /// <summary>
         /// Method to update Record.
         /// </summary>
-        /// <param name="id">Record to update Id value.</param>
         /// <param name="record">Record instance that contains information to update.</param>
-        public void Update(int id, Record record);
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task UpdateRecordAsync(Record record);
 
         /// <summary>
         /// Method to delete Record.
         /// </summary>
         /// <param name="id">Record to delete Id value.</param>
-        public void Delete(int id);
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task DeleteRecordAsync(int id);
     }
 }

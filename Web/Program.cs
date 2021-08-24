@@ -1,5 +1,5 @@
-﻿// <copyright file="Program.cs" company="Eugene Slutiak">
-//     Equipment Controller Project.
+﻿// <copyright file="Program.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace EquipmentControll.Web

@@ -4,6 +4,7 @@
 
 namespace EquipmentControll.Domain.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,41 +21,55 @@ namespace EquipmentControll.Domain.Models
         /// <summary>
         /// Gets or sets Record object Sender.
         /// </summary>
-        [Required]
+        [ForeignKey("SenderId")]
         public User Sender { get; set; }
-
-        /// <summary>
-        /// Gets or sets Record object Receiver.
-        /// </summary>
-        [Required]
-        public User Receiver { get; set; }
-
-        /// <summary>
-        /// Gets or sets Record object Equipment.
-        /// </summary>
-        [Required]
-        public Equipment Equipment { get; set; }
 
         /// <summary>
         /// Gets or sets Record object SenderId.
         /// Uses only to receive SenderId from JSON and then find and add Sender to Record instance by this Id.
         /// </summary>
-        [NotMapped]
-        public int SenderId { get; set; }
+        public int? SenderId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Record object Receiver.
+        /// </summary>
+        [ForeignKey("ReceiverId")]
+        public User Receiver { get; set; }
 
         /// <summary>
         /// Gets or sets Record object ReceiverId.
         /// Uses only to receive ReceiverId from JSON and then find and add Receiver to Record instance by this Id.
         /// </summary>
-        [NotMapped]
-        public int ReceiverId { get; set; }
+        public int? ReceiverId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Record object Equipment.
+        /// </summary>
+        public Equipment Equipment { get; set; }
 
         /// <summary>
         /// Gets or sets Record object EquipmentId.
         /// Uses only to receive EquipmentID from JSON and then find and add Equipment to Record instance by this Id.
         /// </summary>
-        [NotMapped]
+        [Required]
         public int EquipmentId { get; set; }
+
+        /// <summary>
+        /// Date when manager gave user equipment
+        /// </summary>
+        [Required]
+        public DateTime GivenDate { get; set; }
+
+        /// <summary>
+        /// Date when user has return equipment.
+        /// </summary>
+        [Required]
+        public DateTime Deadline { get; set; }
+
+        /// <summary>
+        /// Describes whether equipment is returned or not.
+        /// </summary>
+        public bool IsReturned { get; set; }
 
         /// <summary>
         /// Overrided base ToString method.
@@ -62,7 +77,7 @@ namespace EquipmentControll.Domain.Models
         /// <returns>Record string that includes sender, receiver and given equipment names.</returns>
         public override string ToString()
         {
-            return $"{this.Sender.Name} gave {this.Receiver.Name} {this.Equipment.Name}";
+            return $"{this.Sender.Username} gave {this.Receiver.Username} {this.Equipment.Name}";
         }
     }
 }
