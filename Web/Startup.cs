@@ -7,12 +7,18 @@ namespace EquipmentControll.Web
     using EquipmentControll.Domain.Models;
     using EquipmentControll.Domain.Repositories;
     using EquipmentControll.Logic;
+    using EquipmentControll.Logic.Hashing;
+    using EquipmentControll.Web.Services;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.IdentityModel.Tokens;
+    using System;
+    using System.Text;
 
     /// <summary>
     /// Default Stratup class to configure application and services.
@@ -45,6 +51,34 @@ namespace EquipmentControll.Web
             services.AddDbContext<ProjectContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("ProjectDB")));
 
+            services.AddScoped<JwtAuthService>();
+            services.AddScoped<SignInManager>();
+
+            var jwtTokenConfig = this.Configuration.GetSection("Jwt").Get<JwtTokenConfig>();
+            services.AddSingleton(jwtTokenConfig);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = true;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtTokenConfig.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = jwtTokenConfig.Audience,
+                    ValidateIssuerSigningKey = true,
+                    RequireExpirationTime = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtTokenConfig.Secret))
+                };
+            });
+
             services.AddTransient<IRepository<User>, Repository<User>>();
             services.AddTransient<IRepository<Equipment>, Repository<Equipment>>();
             services.AddTransient<IRepository<Record>, Repository<Record>>();
@@ -52,6 +86,8 @@ namespace EquipmentControll.Web
             services.AddTransient<IUserLogic, UserLogic>();
             services.AddTransient<IEquipmentLogic, EquipmentLogic>();
             services.AddTransient<IRecordLogic, RecordLogic>();
+
+            services.AddTransient<IPasswordHasher, TestPasswordHasher>();
         }
 
         /// <summary>
@@ -65,14 +101,14 @@ namespace EquipmentControll.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                SeedData.EnsureDataPopulated(app.ApplicationServices.CreateScope()
-                    .ServiceProvider.GetRequiredService<ProjectContext>());
+                var sp = app.ApplicationServices.CreateScope().ServiceProvider;
+                SeedData.EnsureDataPopulated(sp.GetRequiredService<ProjectContext>());
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
