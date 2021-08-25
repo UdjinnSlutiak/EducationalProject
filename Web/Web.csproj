@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>EquipmentControll.Web</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'EducationalProject' " />
@@ -22,10 +23,6 @@
     <ProjectReference Include="..\Domain\Domain.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Api\" />
-    <Folder Include="Api\Controllers\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />

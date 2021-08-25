@@ -11,6 +11,8 @@ namespace EquipmentControll.Web.Api.Controllers
     using EquipmentControll.Domain.Models.BindingTargets;
     using EquipmentControll.Domain.Models.Dto;
     using EquipmentControll.Logic;
+    using EquipmentControll.Web.Services;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -18,12 +20,12 @@ namespace EquipmentControll.Web.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("users")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         /// <summary>
         /// Variable uses to have access to user logic.
         /// </summary>
-        private IUserLogic logic;
+        private readonly IUserLogic logic;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.

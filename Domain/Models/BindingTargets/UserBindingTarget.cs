@@ -28,6 +28,11 @@ namespace EquipmentControll.Domain.Models.BindingTargets
         [StringLength(15, MinimumLength = 4)]
         public string Role { get; set; }
 
+        [Required]
+        [DataType(DataType.Password)]
+        [StringLength(30, MinimumLength = 6)]
+        public string Password { get; set; }
+
         public User ToUser()
         {
             return new User

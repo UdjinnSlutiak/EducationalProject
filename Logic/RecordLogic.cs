@@ -4,7 +4,9 @@
 
 namespace EquipmentControll.Logic
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
     using EquipmentControll.Domain.Models;
     using EquipmentControll.Domain.Repositories;
@@ -57,6 +59,24 @@ namespace EquipmentControll.Logic
         public async Task DeleteRecordAsync(int id)
         {
             await this.repository.DeleteAsync(id);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Record>> FilterRecordsAsync(Expression<Func<Record, bool>> predicate)
+        {
+            return await this.repository.FilterAsync(predicate);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Record>> GetNotificationsByReceiverId(int receiverId)
+        {
+            return await this.repository.FilterAsync(record => record.ReceiverId == receiverId && !record.IsReturned);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Record>> GetNotificationsBySenderId(int senderId)
+        {
+            return await this.repository.FilterAsync(record => record.SenderId == senderId && !record.IsReturned);
         }
     }
 }

@@ -4,14 +4,16 @@ using EquipmentControll.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EquipmentControll.Domain.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20210824130442_PasswordToPasswordHash")]
+    partial class PasswordToPasswordHash
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,25 +75,6 @@ namespace EquipmentControll.Domain.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("Records");
-                });
-
-            modelBuilder.Entity("EquipmentControll.Domain.Models.RefreshToken", b =>
-                {
-                    b.Property<string>("Token")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("IssuedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Token");
-
-                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("EquipmentControll.Domain.Models.User", b =>

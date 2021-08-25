@@ -43,9 +43,7 @@ namespace EquipmentControll.Domain.Models
         /// Gets or sets User object password.
         /// </summary>
         [Required]
-        [DataType(DataType.Password)]
-        [StringLength(30, MinimumLength = 6)]
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
 
         /// <summary>
         /// Gets or sets User object Position.

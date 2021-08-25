@@ -1,11 +1,12 @@
-﻿// <copyright file="UserLogicTest.cs" company="Eugene Slutiak">
-//     Equipment Controller Project.
+﻿// <copyright file="UserLogicTest.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace EquipmentControll.UnitTests.Tests.Logic
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using EquipmentControll.Domain.Models;
     using EquipmentControll.Domain.Repositories;
     using EquipmentControll.Logic;
@@ -20,39 +21,42 @@ namespace EquipmentControll.UnitTests.Tests.Logic
         /// <summary>
         /// Tests if UserLogic Get method returns Users collection correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void GetReturnsUsersList()
+        public async Task GetReturnsListOfUsers()
         {
             // Arrange
-            var mock = new Mock<IUserRepository>();
-            mock.Setup(repo => repo.Get()).Returns(this.GetTestUsers());
-            var controller = new UserLogic(mock.Object);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestUsers());
+            var controller = new Repository<User>(context);
+            var logic = new UserLogic(controller);
 
             // Act
-            var result = controller.Get();
+            var result = await logic.GetUsersAsync(0, 3);
 
             // Assert
             Assert.NotNull(result);
             Assert.NotEmpty(result);
             Assert.Equal(3, result.Count());
-            _ = result.Contains(new() { Id = 3, Name = "Zosia", Position = "Director" });
+            _ = result.Contains(new () { Id = 3, FirstName = "Zosia", LastName = "Petrova", Role = "Cleaner", PasswordHash = "hashed_34567", Username = "zosia_the_cleaner" });
         }
 
         /// <summary>
         /// Tests if UserLogic Get method returns User instance by Id correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void GetByIdReturnsUser()
+        public async Task GetByIdReturnsUser()
         {
             // Arrange
             int testUserId = 2;
-            var mock = new Mock<IUserRepository>();
-            mock.Setup(repo => repo.Get(testUserId))
-                .Returns(this.GetTestUsers().FirstOrDefault(user => user.Id == testUserId));
-            var controller = new UserLogic(mock.Object);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestUsers());
+            var controller = new Repository<User>(context);
+            var logic = new UserLogic(controller);
 
             // Act
-            var result = controller.Get(testUserId);
+            var result = await logic.GetUserByIdAsync(testUserId);
 
             // Assert
             Assert.NotNull(result);
@@ -63,55 +67,66 @@ namespace EquipmentControll.UnitTests.Tests.Logic
         /// <summary>
         /// Tests if UserLogic Create method adds User instance correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void CreateUserAddsUser()
+        public async Task CreateUserAddsUser()
         {
             // Arrange
-            var mock = new Mock<IUserRepository>();
-            var controller = new UserLogic(mock.Object);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            var controller = new Repository<User>(context);
+            var logic = new UserLogic(controller);
 
             // Act
-            controller.Create(this.GetTestUsers().First());
+            await logic.CreateUserAsync(this.GetTestUsers().First());
+            await context.SaveChangesAsync();
 
             // Assert
-            mock.Verify(r => r.Create(this.GetTestUsers().First()));
+            context.Users.Contains(this.GetTestUsers().First());
         }
 
         /// <summary>
         /// Tests if UserLogic Update method changes User instance information correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void UpdateUserChangesInformation()
+        public async Task UpdateUserChangesInformation()
         {
             // Arrange
-            var testUserId = 1;
-            var mock = new Mock<IUserRepository>();
-            var controller = new UserLogic(mock.Object);
-            var user = this.GetTestUsers().First(u => u.Id == testUserId);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestUsers());
+            var controller = new Repository<User>(context);
+            var logic = new UserLogic(controller);
+            User user = this.GetTestUsers().First();
 
             // Act
-            controller.Update(testUserId, user);
+            user.Role = "Policeman";
+            await logic.UpdateUserAsync(user);
+            await context.SaveChangesAsync();
 
             // Assert
-            mock.Verify(r => r.Update(testUserId, user));
+            Assert.True(context.Users.First().Role == "Policeman");
         }
 
         /// <summary>
         /// Tests if UserLogic Delete method removes User instance correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void DeleteUserRemovesUser()
+        public async Task DeleteUserRemovesUser()
         {
             // Arrange
             var testUserId = 1;
-            var mock = new Mock<IUserRepository>();
-            var controller = new UserLogic(mock.Object);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestUsers());
+            var controller = new Repository<User>(context);
+            var logic = new UserLogic(controller);
+            var user = this.GetTestUsers().First();
 
             // Act
-            controller.Delete(testUserId);
+            await logic.DeleteUserAsync(testUserId);
 
             // Assert
-            mock.Verify(r => r.Delete(testUserId));
+            Assert.False(context.Users.Contains(user));
         }
 
         /// <summary>
@@ -120,11 +135,11 @@ namespace EquipmentControll.UnitTests.Tests.Logic
         /// <returns>Records List.</returns>
         private List<User> GetTestUsers()
         {
-            return new()
+            return new List<User>
             {
-                new() { Id = 1, Name = "Petro", Position = "Cleaner" },
-                new() { Id = 2, Name = "Ostap", Position = "Cook" },
-                new() { Id = 3, Name = "Zosia", Position = "Director" }
+                new () { Id = 1, FirstName = "Petro", LastName = "Mostavchuk", Role = "Motivator", PasswordHash = "hashed_12345", Username = "mc_petia" },
+                new () { Id = 2, FirstName = "Ostap", LastName = "Korobenko", Role = "Cook", PasswordHash = "hashed_23456", Username = "korobka" },
+                new () { Id = 3, FirstName = "Zosia", LastName = "Petrova", Role = "Cleaner", PasswordHash = "hashed_34567", Username = "zosia_the_cleaner" },
             };
         }
     }

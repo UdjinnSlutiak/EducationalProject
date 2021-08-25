@@ -15,7 +15,7 @@ namespace EquipmentControll.Web.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("equipments")]
-    public class EquipmentController : Controller
+    public class EquipmentController : ControllerBase
     {
         /// <summary>
         /// Variable uses to have access to equipment logic.
@@ -39,9 +39,9 @@ namespace EquipmentControll.Web.Api.Controllers
         /// <param name="count">Count of Equipments to take.</param>
         /// <returns>IEnumerable collection of Equipment inastances.</returns>
         [HttpGet]
-        public async Task<IEnumerable<Equipment>> Get(int offset = 0, int count = 10)
+        public async Task<IActionResult> Get(int offset = 0, int count = 10)
         {
-            return await this.logic.GetEquipmentsAsync(offset, count);
+            return this.Ok(await this.logic.GetEquipmentsAsync(offset, count));
         }
 
         /// <summary>
@@ -50,9 +50,9 @@ namespace EquipmentControll.Web.Api.Controllers
         /// <param name="id">Equipment to find Id value.</param>
         /// <returns>Equipment instance.</returns>
         [HttpGet("{id}")]
-        public async Task<Equipment> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return await this.logic.GetEquipmentByIdAsync(id);
+            return this.Ok(await this.logic.GetEquipmentByIdAsync(id));
         }
 
         /// <summary>

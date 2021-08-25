@@ -6,6 +6,7 @@ namespace EquipmentControll.UnitTests.Tests.Logic
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using EquipmentControll.Domain.Models;
     using EquipmentControll.Domain.Repositories;
     using EquipmentControll.Logic;
@@ -20,100 +21,113 @@ namespace EquipmentControll.UnitTests.Tests.Logic
         /// <summary>
         /// Tests if EquipmentLogic Get method returns Equipment collection correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void GetReturnsEquipmentList()
+        public async Task GetReturnsListOfEquipment()
         {
             // Arrange
-            var mock = new Mock<IEquipmentRepository>();
-            mock.Setup(repo => repo.Get()).Returns(this.GetTestEquipments());
-            var controller = new EquipmentLogic(mock.Object);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestEquipments());
+            var controller = new Repository<Equipment>(context);
+            var logic = new EquipmentLogic(controller);
 
             // Act
-            var result = controller.Get();
+            var result = await logic.GetEquipmentsAsync(0, 3);
 
             // Assert
             Assert.NotNull(result);
             Assert.NotEmpty(result);
-            _ = Assert.IsAssignableFrom<IEnumerable<Equipment>>(result);
-            result.Contains(new() { Id = 3, Name = "Bucket", Value = 80 });
             Assert.Equal(3, result.Count());
+            _ = result.Contains(new () { Id = 1, Name = "Mob", Price = 300 });
         }
 
         /// <summary>
         /// Tests if EquipmentLogic Get method returns Equipment instance by Id correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void GetByIdReturnsEquipment()
+        public async Task GetByIdReturnsEquipment()
         {
             // Arrange
-            int testEquipmentId = 3;
-            var mock = new Mock<IEquipmentRepository>();
-            mock.Setup(repo => repo.Get(testEquipmentId))
-                .Returns(this.GetTestEquipments().FirstOrDefault(user => user.Id == testEquipmentId));
-            var controller = new EquipmentLogic(mock.Object);
+            int testEquipmentId = 2;
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestEquipments());
+            var controller = new Repository<Equipment>(context);
+            var logic = new EquipmentLogic(controller);
 
             // Act
-            var result = controller.Get(testEquipmentId);
+            var result = await logic.GetEquipmentByIdAsync(testEquipmentId);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<Equipment>(result);
+            Assert.IsType<User>(result);
             result.Equals(this.GetTestEquipments().FirstOrDefault(user => user.Id == testEquipmentId));
         }
 
         /// <summary>
         /// Tests if EquipmentLogic Create method adds Equipment instance correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void CreateEquipmentAddsEquipment()
+        public async Task CreateEquipmentAddsRecord()
         {
             // Arrange
-            var mock = new Mock<IEquipmentRepository>();
-            var controller = new EquipmentLogic(mock.Object);
-            var equipment = this.GetTestEquipments().First();
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            var controller = new Repository<Equipment>(context);
+            var logic = new EquipmentLogic(controller);
 
             // Act
-            controller.Create(equipment);
+            await logic.CreateEquipmentAsync(this.GetTestEquipments().First());
+            await context.SaveChangesAsync();
 
             // Assert
-            mock.Verify(r => r.Create(equipment));
+            context.Equipments.Contains(this.GetTestEquipments().First());
         }
 
         /// <summary>
         /// Tests if EquipmentLogic Update method changes Equipment instance information correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void UpdateEquipmentChangesInformation()
+        public async Task UpdateEquipmentChangesInformation()
         {
             // Arrange
-            var testEquipmentId = 1;
-            var mock = new Mock<IEquipmentRepository>();
-            var controller = new EquipmentLogic(mock.Object);
-            var equipment = this.GetTestEquipments().First(e => e.Id == testEquipmentId);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestEquipments());
+            var controller = new Repository<Equipment>(context);
+            var logic = new EquipmentLogic(controller);
+            Equipment equipment = this.GetTestEquipments().First();
 
             // Act
-            controller.Update(testEquipmentId, equipment);
+            equipment.Price = 2800;
+            await logic.UpdateEquipmentAsync(equipment);
+            await context.SaveChangesAsync();
 
             // Assert
-            mock.Verify(r => r.Update(testEquipmentId, equipment));
+            Assert.True(context.Equipments.First().Price == 2800);
         }
 
         /// <summary>
         /// Tests if EquipmentLogic Delete method removes Equipment instance correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void DeleteEquipmentRemovesEquipment()
+        public async Task DeleteEquipmentRemovesEquipment()
         {
             // Arrange
-            var testEquipmentId = 1;
-            var mock = new Mock<IEquipmentRepository>();
-            var controller = new EquipmentLogic(mock.Object);
+            var testUserId = 1;
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestEquipments());
+            var controller = new Repository<Equipment>(context);
+            var logic = new EquipmentLogic(controller);
+            var equipment = this.GetTestEquipments().First();
 
             // Act
-            controller.Delete(testEquipmentId);
+            await logic.DeleteEquipmentAsync(testUserId);
+            await context.SaveChangesAsync();
 
             // Assert
-            mock.Verify(r => r.Delete(testEquipmentId));
+            Assert.False(context.Equipments.Contains(equipment));
         }
 
         /// <summary>
@@ -122,11 +136,11 @@ namespace EquipmentControll.UnitTests.Tests.Logic
         /// <returns>Equipments List.</returns>
         private List<Equipment> GetTestEquipments()
         {
-            return new()
+            return new List<Equipment>
             {
-                new() { Id = 1, Name = "Mob", Value = 300 },
-                new() { Id = 2, Name = "Pan", Value = 500 },
-                new() { Id = 3, Name = "Bucket", Value = 80 }
+                new () { Id = 1, Name = "Mob", Price = 300 },
+                new () { Id = 2, Name = "Pan", Price = 500 },
+                new () { Id = 3, Name = "Bucket", Price = 80 },
             };
         }
     }

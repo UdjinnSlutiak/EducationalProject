@@ -4,7 +4,9 @@
 
 namespace EquipmentControll.Logic
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
     using EquipmentControll.Domain.Models;
 
@@ -48,5 +50,26 @@ namespace EquipmentControll.Logic
         /// <param name="id">Record to delete Id value.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task DeleteRecordAsync(int id);
+
+        /// <summary>
+        /// Method to filter getting Records.
+        /// </summary>
+        /// <param name="predicate">Predicate to filter Records.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public Task<IEnumerable<Record>> FilterRecordsAsync(Expression<Func<Record, bool>> predicate);
+
+        /// <summary>
+        /// Method to get notifications by receiver id.
+        /// </summary>
+        /// <param name="receiverId">User receiver id.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public Task<IEnumerable<Record>> GetNotificationsByReceiverId(int receiverId);
+
+        /// <summary>
+        /// Method to get notifications by sender id.
+        /// </summary>
+        /// <param name="senderId">User sender id.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public Task<IEnumerable<Record>> GetNotificationsBySenderId(int senderId);
     }
 }

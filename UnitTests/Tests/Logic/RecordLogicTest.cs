@@ -6,6 +6,7 @@ namespace EquipmentControll.UnitTests.Tests.Logic
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using EquipmentControll.Domain.Models;
     using EquipmentControll.Domain.Repositories;
     using EquipmentControll.Logic;
@@ -21,109 +22,113 @@ namespace EquipmentControll.UnitTests.Tests.Logic
         /// <summary>
         /// Tests if RecordLogic Get method returns Record collection correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void GetReturnsRecordList()
+        public async Task GetReturnsListOfRecords()
         {
             // Arrange
-            List<Record> records = this.GetTestRecords();
-            List<string> recordStrings = new();
-            foreach (var item in records)
-            {
-                recordStrings.Add($"{item.Sender} gave {item.Receiver} {item.Equipment}");
-            }
-
-            var mock = new Mock<IRecordRepository>();
-            mock.Setup(repo => repo.Get()).Returns(recordStrings);
-            var controller = new RecordLogic(mock.Object);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestRecords());
+            var controller = new Repository<Record>(context);
+            var logic = new RecordLogic(controller);
 
             // Act
-            var result = controller.Get();
+            var result = await logic.GetRecordsAsync(0, 3);
 
             // Assert
             Assert.NotNull(result);
             Assert.NotEmpty(result);
-            _ = Assert.IsAssignableFrom<IEnumerable<string>>(result);
-            result.Contains("Petro gave Ostap Mob");
             Assert.Equal(3, result.Count());
+            _ = result.Contains(this.GetTestRecords().First());
         }
 
         /// <summary>
         /// Tests if RecordLogic Get method returns Record instance by Id correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void GetByIdReturnsRecord()
+        public async Task GetByIdReturnsRecord()
         {
             // Arrange
-            int testRecordId = 3;
-            Record record = this.GetTestRecords().First(r => r.Id == testRecordId);
-
-            var mock = new Mock<IRecordRepository>();
-            mock.Setup(repo => repo.Get(testRecordId))
-                .Returns($"{record.Sender} gave {record.Receiver} {record.Equipment}");
-            var controller = new RecordLogic(mock.Object);
+            int testEquipmentId = 2;
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestRecords());
+            var controller = new Repository<Record>(context);
+            var logic = new RecordLogic(controller);
 
             // Act
-            var result = controller.Get(testRecordId);
+            var result = await logic.GetRecordByIdAsync(testEquipmentId);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<string>(result);
-            result.Equals(this.GetTestRecords().FirstOrDefault(user => user.Id == testRecordId));
+            Assert.IsType<User>(result);
+            result.Equals(this.GetTestRecords().FirstOrDefault(user => user.Id == testEquipmentId));
         }
 
         /// <summary>
         /// Tests if RecordLogic Create method adds Record instance correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void CreateRecordAddsRecord()
+        public async Task CreateRecordAddsRecord()
         {
             // Arrange
-            var mock = new Mock<IRecordRepository>();
-            var controller = new RecordLogic(mock.Object);
-            var record = this.GetTestRecords().First();
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            var controller = new Repository<Record>(context);
+            var logic = new RecordLogic(controller);
 
             // Act
-            controller.Create(record);
+            await logic.CreateRecordAsync(this.GetTestRecords().First());
+            await context.SaveChangesAsync();
 
             // Assert
-            mock.Verify(r => r.Create(record));
+            context.Records.Contains(this.GetTestRecords().First());
         }
 
         /// <summary>
         /// Tests if RecordLogic Update method changes Record instance information correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void UpdateRecordChangesInformation()
+        public async Task UpdateRecordChangesInformation()
         {
             // Arrange
-            var testRecordId = 2;
-            var mock = new Mock<IRecordRepository>();
-            var controller = new RecordLogic(mock.Object);
-            var record = this.GetTestRecords().First(r => r.Id == testRecordId);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestRecords());
+            var controller = new Repository<Record>(context);
+            var logic = new RecordLogic(controller);
+            Record record = this.GetTestRecords().First();
 
             // Act
-            controller.Update(2, record);
+            record.IsReturned = true;
+            await logic.UpdateRecordAsync(record);
+            await context.SaveChangesAsync();
 
             // Assert
-            mock.Verify(r => r.Update(2, record));
+            Assert.True(context.Records.First().IsReturned == true);
         }
 
         /// <summary>
         /// Tests if RecordLogic Delete method removes Record instance correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void DeleteRecordRemovesRecord()
+        public async Task DeleteRecordRemovesRecord()
         {
             // Arrange
-            var testRecordId = 3;
-            var mock = new Mock<IRecordRepository>();
-            var controller = new RecordLogic(mock.Object);
+            var testUserId = 1;
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestRecords());
+            var controller = new Repository<Record>(context);
+            var logic = new RecordLogic(controller);
+            var record = this.GetTestRecords().First();
 
             // Act
-            controller.Delete(testRecordId);
+            await logic.DeleteRecordAsync(testUserId);
+            await context.SaveChangesAsync();
 
             // Assert
-            mock.Verify(r => r.Delete(testRecordId));
+            Assert.False(context.Records.Contains(record));
         }
 
         /// <summary>
@@ -132,17 +137,17 @@ namespace EquipmentControll.UnitTests.Tests.Logic
         /// <returns>Records List.</returns>
         private List<Record> GetTestRecords()
         {
-            Equipment mob = new() { Id = 1, Name = "Mob", Value = 300 };
-            Equipment pan = new() { Id = 2, Name = "Pan", Value = 500 };
+            Equipment mob = new () { Id = 1, Name = "Mob", Price = 300 };
+            Equipment pan = new () { Id = 2, Name = "Pan", Price = 500 };
 
-            User petro = new() { Id = 1, Name = "Petro", Position = "Cleaner" };
-            User ostap = new() { Id = 1, Name = "Ostap", Position = "Cook" };
+            User petro = new () { Id = 1, FirstName = "Petro", LastName = "Mostavchuk", Role = "Motivator", PasswordHash = "hashed_12345", Username = "mc_petia" };
+            User ostap = new () { Id = 2, FirstName = "Ostap", LastName = "Korobenko", Role = "Cook", PasswordHash = "hashed_23456", Username = "korobka" };
 
-            return new()
+            return new List<Record>
             {
-                new() { Id = 1, Sender = petro, Receiver = ostap, Equipment = mob },
-                new() { Id = 2, Sender = petro, Receiver = ostap, Equipment = pan },
-                new() { Id = 3, Sender = ostap, Receiver = petro, Equipment = mob }
+                new () { Id = 1, Sender = petro, Receiver = ostap, Equipment = mob, IsReturned = false, GivenDate = System.DateTime.Today, Deadline = System.DateTime.Today, EquipmentId = mob.Id, SenderId = petro.Id, ReceiverId = ostap.Id },
+                new () { Id = 2, Sender = petro, Receiver = ostap, Equipment = pan, IsReturned = false, GivenDate = System.DateTime.Today, Deadline = System.DateTime.Today, EquipmentId = pan.Id, SenderId = petro.Id, ReceiverId = ostap.Id },
+                new () { Id = 3, Sender = ostap, Receiver = petro, Equipment = mob, IsReturned = false, GivenDate = System.DateTime.Today, Deadline = System.DateTime.Today, EquipmentId = mob.Id, SenderId = ostap.Id, ReceiverId = petro.Id },
             };
         }
     }

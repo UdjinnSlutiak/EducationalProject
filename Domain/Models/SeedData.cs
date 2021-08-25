@@ -21,7 +21,7 @@
                         FirstName = "User",
                         LastName = "One",
                         Username = "username1",
-                        Password = "password1",
+                        PasswordHash = "hashed_password1",
                         Role = "User" 
                     },
                     new User
@@ -29,7 +29,7 @@
                         FirstName = "User",
                         LastName = "Two",
                         Username = "username2",
-                        Password = "password2",
+                        PasswordHash = "hashed_password2",
                         Role = "Moderator"
                     },
                     new User
@@ -37,7 +37,7 @@
                         FirstName = "User",
                         LastName = "Three",
                         Username = "username3",
-                        Password = "password3",
+                        PasswordHash = "hashed_password3",
                         Role = "Administrator"
                     });
 

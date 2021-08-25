@@ -11,17 +11,7 @@ namespace EquipmentControll.Domain.Models
     /// </summary>
     public class ProjectContext : DbContext
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ProjectContext"/> class. Ensures that database is created.
-        /// </summary>
-        public ProjectContext() { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ProjectContext"/> class. Ensures that database is created, receives and sends ContextOptions to the base DbContext class.
-        /// </summary>
-        /// <param name="options">Context options instance.</param>
-        public ProjectContext(DbContextOptions<ProjectContext> options)
-            : base(options) { }
+        private readonly string connectionString;
 
         /// <summary>
         /// Gets or sets equipments instances to DbSet.
@@ -37,5 +27,29 @@ namespace EquipmentControll.Domain.Models
         /// Gets or sets records instances to DbSet.
         /// </summary>
         public DbSet<Record> Records { get; set; }
+
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProjectContext"/> class. Ensures that database is created.
+        /// </summary>
+        public ProjectContext() { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProjectContext"/> class. Ensures that database is created, receives and sends ContextOptions to the base DbContext class.
+        /// </summary>
+        /// <param name="options">Context options instance.</param>
+        public ProjectContext(DbContextOptions<ProjectContext> options)
+            : base(options) { }
+
+        public ProjectContext(string connectionString = null)
+        {
+            this.connectionString = connectionString ?? "Server=localhost,1433; Database=ProjectDB; User=sa; Password=KAnITOWKA13";
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(connectionString);
+        }
     }
 }

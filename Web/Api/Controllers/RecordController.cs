@@ -15,7 +15,7 @@ namespace EquipmentControll.Web.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("records")]
-    public class RecordController : Controller
+    public class RecordController : ControllerBase
     {
         /// <summary>
         /// Variable uses to have access to record logic.
@@ -39,9 +39,9 @@ namespace EquipmentControll.Web.Api.Controllers
         /// <param name="count">Count of Records to take.</param>
         /// <returns>IEnumerable collection of Record inastances.</returns>
         [HttpGet]
-        public async Task<IEnumerable<Record>> Get(int offset = 0, int count = 10)
+        public async Task<IActionResult> Get(int offset = 0, int count = 10)
         {
-            return await this.logic.GetRecordsAsync(offset, count);
+            return this.Ok(await this.logic.GetRecordsAsync(offset, count));
         }
 
         /// <summary>
@@ -50,9 +50,9 @@ namespace EquipmentControll.Web.Api.Controllers
         /// <param name="id">Record to find Id value.</param>
         /// <returns>Record instance.</returns>
         [HttpGet("{id}")]
-        public async Task<Record> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return await this.logic.GetRecordByIdAsync(id);
+            return this.Ok(await this.logic.GetRecordByIdAsync(id));
         }
 
         /// <summary>
@@ -86,6 +86,28 @@ namespace EquipmentControll.Web.Api.Controllers
         public async Task Delete(int id)
         {
             await this.logic.DeleteRecordAsync(id);
+        }
+
+        /// <summary>
+        /// Method to get notifications by receiver id.
+        /// </summary>
+        /// <param name="receiverId">User receiver id.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetNotificationsByReceiverId(int receiverId)
+        {
+            return this.Ok(await this.logic.GetNotificationsByReceiverId(receiverId));
+        }
+
+        /// <summary>
+        /// Method to get notifications by sender id.
+        /// </summary>
+        /// <param name="senderId">User sender id.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetNotificationsBySenderId(int senderId)
+        {
+            return this.Ok(await this.logic.GetNotificationsBySenderId(senderId));
         }
     }
 }

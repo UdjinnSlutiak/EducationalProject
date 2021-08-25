@@ -1,15 +1,15 @@
-﻿// <copyright file="UserRepositoryTest.cs" company="Eugene Slutiak">
-//     Equipment Controller Project.
+﻿// <copyright file="UserRepositoryTest.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace EquipmentControll.UnitTests.Tests.Domain
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using EquipmentControll.Domain.Models;
     using EquipmentControll.Domain.Repositories;
     using Microsoft.EntityFrameworkCore;
-    using Moq;
     using Xunit;
 
     /// <summary>
@@ -20,38 +20,40 @@ namespace EquipmentControll.UnitTests.Tests.Domain
         /// <summary>
         /// Tests if UserRepository Get method returns collection of Users correctly
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void GetReturnsListOfUsers()
+        public async Task GetReturnsListOfUsers()
         {
             // Arrange
-            var mock = new Mock<IProjectContext>();
-            mock.Setup(repo => repo.Users).Returns(this.GetTestUsers());
-            var controller = new UserRepository(mock.Object);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestUsers());
+            var controller = new Repository<User>(context);
 
             // Act
-            var result = controller.Get();
+            var result = await controller.GetAsync(0, 3);
 
             // Assert
             Assert.NotNull(result);
             Assert.NotEmpty(result);
             Assert.Equal(3, result.Count());
-            _ = result.Contains(new() { Id = 3, Name = "Zosia", Position = "Director" });
+            _ = result.Contains(new () { Id = 3, FirstName = "Zosia", LastName = "Petrova", Role = "Cleaner", PasswordHash = "hashed_34567", Username = "zosia_the_cleaner" });
         }
 
         /// <summary>
         /// Test if UserRepository Get method returns User instance by Id correctly
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void GetByIdReturnsUser()
+        public async Task GetByIdReturnsUser()
         {
             // Arrange
             var testUserId = 3;
-            var mock = new Mock<IProjectContext>();
-            mock.SetupGet(repo => repo.Users).Returns(this.GetTestUsers());
-            var controller = new UserRepository(mock.Object);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            context.AddRange(this.GetTestUsers());
+            var controller = new Repository<User>(context);
 
             // Act
-            var result = controller.Get(testUserId);
+            var result = await controller.GetAsync(testUserId);
 
             // Assert
             Assert.NotNull(result);
@@ -61,71 +63,78 @@ namespace EquipmentControll.UnitTests.Tests.Domain
         /// <summary>
         /// Test if UserRepository Create method adds User instance correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void CreateUserAddsUser()
+        public async Task CreateUserAddsUser()
         {
             // Arrange
-            var mock = new Mock<IProjectContext>();
-            var controller = new UserRepository(mock.Object);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            var controller = new Repository<User>(context);
 
             // Act
-            controller.Create(this.GetTestUsers().First());
+            await controller.CreateAsync(this.GetTestUsers().First());
+            await context.SaveChangesAsync();
 
             // Assert
-            mock.Verify(r => r.Add(this.GetTestUsers().First()));
+            context.Users.Contains(this.GetTestUsers().First());
         }
 
         /// <summary>
         /// Test if UserRepository Update method changes User instance information correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void UpdateUserChangesInfrmation()
+        public async Task UpdateUserChangesInfrmation()
         {
             // Arrange
             var testUserId = 1;
-            var mock = new Mock<IProjectContext>();
-            var controller = new UserRepository(mock.Object);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            var controller = new Repository<User>(context);
             var user = this.GetTestUsers().First(u => u.Id == testUserId);
+            user.Id = testUserId;
 
             // Act
-            controller.Update(testUserId, user);
+            user.Role = "Policeman";
+            await controller.UpdateAsync(user);
+            await context.SaveChangesAsync();
 
             // Assert
-            mock.Verify(r => r.Update(user));
+            Assert.True(context.Users.Where(u => u.Id == testUserId).First().Role == "Policeman");
         }
 
         /// <summary>
         /// Test if UserRepository Delete method removes user correctly.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void DeleteUserRemovesUser()
+        public async Task DeleteUserRemovesUser()
         {
             // Arrange
             var testUserId = 1;
-            var mock = new Mock<IProjectContext>();
-            mock.Setup(repo => repo.Users).Returns(this.GetTestUsers());
-            var controller = new UserRepository(mock.Object);
+            var context = new ProjectContext("Server=localhost,1433; Database=TestProjectDB; User=sa; Password=KAnITOWKA13");
+            var controller = new Repository<User>(context);
+            context.AddRange(this.GetTestUsers());
             var user = this.GetTestUsers().First(u => u.Id == testUserId);
 
             // Act
-            controller.Delete(testUserId);
+            await controller.DeleteAsync(testUserId);
 
             // Assert
-            mock.Verify(r => r.Remove<User>(user));
+            Assert.False(context.Users.Contains(user));
         }
 
         /// <summary>
         /// Creates Users collection.
         /// </summary>
         /// <returns>IQueryable Users List as IQueryable.</returns>
-        private IQueryable<User> GetTestUsers()
+        private List<User> GetTestUsers()
         {
             return new List<User>
             {
-                new() { Id = 1, Name = "Petro", Position = "Cleaner" },
-                new() { Id = 2, Name = "Ostap", Position = "Cook" },
-                new() { Id = 3, Name = "Zosia", Position = "Director" }
-            }.AsQueryable();
+                new () { Id = 1, FirstName = "Petro", LastName = "Mostavchuk", Role = "Motivator", PasswordHash = "hashed_12345", Username = "mc_petia" },
+                new () { Id = 2, FirstName = "Ostap", LastName = "Korobenko", Role = "Cook", PasswordHash = "hashed_23456", Username = "korobka" },
+                new () { Id = 3, FirstName = "Zosia", LastName = "Petrova", Role = "Cleaner", PasswordHash = "hashed_34567", Username = "zosia_the_cleaner" },
+            };
         }
     }
 }
