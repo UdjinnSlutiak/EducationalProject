@@ -56,7 +56,7 @@ namespace EquipmentControll.Logic
         /// <inheritdoc/>
         public async Task DeleteEquipmentAsync(int id)
         {
-            await this.repository.DeleteAsync(id);
+            await this.repository.DeleteAsync(new Equipment { Id = id });
         }
     }
 }

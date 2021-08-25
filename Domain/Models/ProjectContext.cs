@@ -28,6 +28,8 @@ namespace EquipmentControll.Domain.Models
         /// </summary>
         public DbSet<Equipment> Equipments { get; set; }
 
+        public DbSet<BlacklistedToken> BlacklistedTokens { get; set; }
+
         /// <summary>
         /// Gets or sets users instances to DbSet.
         /// </summary>

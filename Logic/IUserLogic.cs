@@ -29,6 +29,21 @@ namespace EquipmentControll.Logic
         public Task<User> GetUserByIdAsync(int id);
 
         /// <summary>
+        /// Gets user with matched username and password hash.
+        /// </summary>
+        /// <param name="username">Target user username.</param>
+        /// <param name="passwordHash">Target user password hash.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public Task<User> GetUserForLoginAsync(string username, string passwordHash);
+
+        /// <summary>
+        /// Returns true if username wasn't taken yet.
+        /// </summary>
+        /// <param name="username">Username to check.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public Task<bool> IsUsernameAvailableAsync(string username);
+
+        /// <summary>
         /// Method to Create User.
         /// </summary>
         /// <param name="user">User instance to add database.</param>
@@ -48,5 +63,10 @@ namespace EquipmentControll.Logic
         /// <param name="id">User to delete Id value.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task DeleteUserAsync(int id);
+
+        public Task ChangeUserRoleAsync(int userId, string role);
+        public Task ChangePasswordAsync(int userId, string password);
+        public Task ChangeUsernameAsync(int userId, string username);
+        public Task ChangeNameAsync(int userId, string firstName, string lastName);
     }
 }

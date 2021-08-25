@@ -8,6 +8,7 @@ namespace EquipmentControll.Web
     using EquipmentControll.Domain.Repositories;
     using EquipmentControll.Logic;
     using EquipmentControll.Logic.Hashing;
+    using EquipmentControll.Web.Middlewares;
     using EquipmentControll.Web.Services;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
@@ -52,7 +53,7 @@ namespace EquipmentControll.Web
                 options.UseSqlServer(this.Configuration.GetConnectionString("ProjectDB")));
 
             services.AddScoped<JwtAuthService>();
-            services.AddScoped<SignInManager>();
+            services.AddScoped<AuthManager>();
 
             var jwtTokenConfig = this.Configuration.GetSection("Jwt").Get<JwtTokenConfig>();
             services.AddSingleton(jwtTokenConfig);
@@ -82,10 +83,14 @@ namespace EquipmentControll.Web
             services.AddTransient<IRepository<User>, Repository<User>>();
             services.AddTransient<IRepository<Equipment>, Repository<Equipment>>();
             services.AddTransient<IRepository<Record>, Repository<Record>>();
+            services.AddTransient<IRepository<RefreshToken>, Repository<RefreshToken>>();
+            services.AddTransient<IRepository<BlacklistedToken>, Repository<BlacklistedToken>>();
 
             services.AddTransient<IUserLogic, UserLogic>();
             services.AddTransient<IEquipmentLogic, EquipmentLogic>();
             services.AddTransient<IRecordLogic, RecordLogic>();
+            services.AddTransient<IRefreshTokenLogic, RefreshTokenLogic>();
+            services.AddTransient<IBlacklistedTokenLogic, BlacklistedTokenLogic>();
 
             services.AddTransient<IPasswordHasher, TestPasswordHasher>();
         }
@@ -106,6 +111,8 @@ namespace EquipmentControll.Web
             }
 
             app.UseHttpsRedirection();
+
+            app.UseBlacklistTokenCheck();
 
             app.UseRouting();
             app.UseAuthentication();

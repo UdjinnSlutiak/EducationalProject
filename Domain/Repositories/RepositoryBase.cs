@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EquipmentControll.Domain.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class, new()
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ProjectContext context;
 
@@ -23,10 +23,11 @@ namespace EquipmentControll.Domain.Repositories
 
         public async Task<IEnumerable<T>> GetAsync(int offset, int count)
         {
-            return await this.context.Set<T>().Skip(offset).Take(count).ToListAsync();
+            return await this.context.Set<T>().Skip(offset)
+                .Take(count).AsNoTracking().ToListAsync();
         }
 
-        public async Task<T> GetAsync(int id)
+        public async Task<T> GetAsync<TKey>(TKey id)
         {
             return await this.context.Set<T>().FindAsync(id);
         }
@@ -43,9 +44,15 @@ namespace EquipmentControll.Domain.Repositories
             await this.context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(T entity)
         {
-            this.context.Remove(await this.context.Set<T>().FindAsync(id));
+            this.context.Remove(entity);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task DeleteRangeAsync(IEnumerable<T> entities)
+        {
+            this.context.RemoveRange(entities);
             await this.context.SaveChangesAsync();
         }
 

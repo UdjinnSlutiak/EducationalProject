@@ -8,31 +8,33 @@ namespace EquipmentControll.Web.Api.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using EquipmentControll.Domain.Models;
-    using EquipmentControll.Domain.Models.BindingTargets;
     using EquipmentControll.Domain.Models.Dto;
+    using EquipmentControll.Domain.Models.Requests;
     using EquipmentControll.Logic;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     /// CRUD API User Controller.
     /// </summary>
+    [Authorize]
     [ApiController]
     [Route("users")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         /// <summary>
         /// Variable uses to have access to user logic.
         /// </summary>
-        private IUserLogic logic;
+        private readonly IUserLogic userLogic;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
         /// Receives IUserLogic instance by dependency injection to work with user repository.
         /// </summary>
-        /// <param name="logic">IUserLogic instance received by dependency injection.</param>
-        public UserController(IUserLogic logic)
+        /// <param name="userLogic">IUserLogic instance received by dependency injection.</param>
+        public UserController(IUserLogic userLogic)
         {
-            this.logic = logic;
+            this.userLogic = userLogic;
         }
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace EquipmentControll.Web.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<UserDto>> Get(int offset = 0, int count = 10)
         {
-            IEnumerable<User> users = await this.logic.GetUsersAsync(offset, count);
+            IEnumerable<User> users = await this.userLogic.GetUsersAsync(offset, count);
             return users.Select(u => new UserDto(u));
         }
 
@@ -56,7 +58,7 @@ namespace EquipmentControll.Web.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            User user = await this.logic.GetUserByIdAsync(id);
+            User user = await this.userLogic.GetUserByIdAsync(id);
 
             if (user == null)
             {
@@ -68,17 +70,12 @@ namespace EquipmentControll.Web.Api.Controllers
             return this.Ok(userDto);
         }
 
-        /// <summary>
-        /// User CRUD Create method.
-        /// </summary>
-        /// <param name="target">User instance to add to database.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        [HttpPost]
-        public async Task<IActionResult> Create(UserBindingTarget target)
+        [HttpPost("{id}/change-role")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> ChangeUserRole(ChangeUserRoleRequest request)
         {
-            User user = target.ToUser();
-            await this.logic.CreateUserAsync(user);
-            return this.Ok(user);
+            await this.userLogic.ChangeUserRoleAsync(request.Id, request.Role);
+            return this.Ok();
         }
 
         /// <summary>
@@ -87,9 +84,10 @@ namespace EquipmentControll.Web.Api.Controllers
         /// <param name="user">User instance that contains information to update.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task Update(User user)
         {
-            await this.logic.UpdateUserAsync(user);
+            await this.userLogic.UpdateUserAsync(user);
         }
 
         /// <summary>
@@ -98,9 +96,10 @@ namespace EquipmentControll.Web.Api.Controllers
         /// <param name="id">User to delete Id value.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task Delete(int id)
         {
-            await this.logic.DeleteUserAsync(id);
+            await this.userLogic.DeleteUserAsync(id);
         }
     }
 }
