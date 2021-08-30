@@ -54,12 +54,21 @@ namespace EquipmentControll.Domain.Models
         [Required]
         public int EquipmentId { get; set; }
 
+        /// <summary>
+        /// Date when manager gave user equipment
+        /// </summary>
         [Required]
         public DateTime GivenDate { get; set; }
 
+        /// <summary>
+        /// Date when user has return equipment.
+        /// </summary>
         [Required]
         public DateTime Deadline { get; set; }
 
+        /// <summary>
+        /// Describes whether equipment is returned or not.
+        /// </summary>
         public bool IsReturned { get; set; }
 
         /// <summary>

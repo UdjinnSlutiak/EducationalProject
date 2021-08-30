@@ -1,10 +1,11 @@
-﻿// <copyright file="EquipmentLogic.cs" company="Eugene Slutiak">
-//     Equipment Controller Project.
+﻿// <copyright file="EquipmentLogic.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace EquipmentControll.Logic
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using EquipmentControll.Domain.Models;
     using EquipmentControll.Domain.Repositories;
 
@@ -16,63 +17,46 @@ namespace EquipmentControll.Logic
         /// <summary>
         /// Variable uses to have access to equipment repository.
         /// </summary>
-        private IEquipmentRepository repository;
+        private IRepository<Equipment> repository;
 
         /// <summary>
-        /// Initializes a new instance of the EquipmentLogic class.
+        /// Initializes a new instance of the <see cref="EquipmentLogic"/> class.
         /// Receives IEquipmentRepository instance by dependency injection to work with equipment repository.
         /// </summary>
         /// <param name="repository">IEquipmentRepository instance received by dependency injection.</param>
-        public EquipmentLogic(IEquipmentRepository repository)
+        public EquipmentLogic(IRepository<Equipment> repository)
         {
             this.repository = repository;
         }
 
-        /// <summary>
-        /// Realization of IEquipmentLogic Get method.
-        /// </summary>
-        /// <returns>IEnumerable collection of Equipment inastances.</returns>
-        public IEnumerable<Equipment> Get()
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Equipment>> GetEquipmentsAsync(int offset, int count)
         {
-            return this.repository.Get();
+            return await this.repository.GetAsync(offset, count);
         }
 
-        /// <summary>
-        /// Realization of IEquipmentLogic overloaded Get method.
-        /// </summary>
-        /// <param name="id">Equipment to find Id value.</param>
-        /// <returns>Equipment instance.</returns>
-        public Equipment Get(int id)
+        /// <inheritdoc/>
+        public async Task<Equipment> GetEquipmentByIdAsync(int id)
         {
-            return this.repository.Get(id);
+            return await this.repository.GetAsync(id);
         }
 
-        /// <summary>
-        /// Realization of IEquipmentLogic Create method.
-        /// </summary>
-        /// <param name="equipment">Equipment instance to add to database.</param>
-        public void Create(Equipment equipment)
+        /// <inheritdoc/>
+        public async Task CreateEquipmentAsync(Equipment equipment)
         {
-            this.repository.Create(equipment);
+            await this.repository.CreateAsync(equipment);
         }
 
-        /// <summary>
-        /// Realization of IEquipmentLogic Update method.
-        /// </summary>
-        /// <param name="id">Equipment to update Id value.</param>
-        /// <param name="equipment">Equipment instance that contains information to update.</param>
-        public void Update(Equipment equipment)
+        /// <inheritdoc/>
+        public async Task UpdateEquipmentAsync(Equipment equipment)
         {
-            this.repository.Update(equipment);
+            await this.repository.UpdateAsync(equipment);
         }
 
-        /// <summary>
-        /// Realization of IEquipmentRepository Delete method.
-        /// </summary>
-        /// <param name="id">Equipment to delete Id value.</param>
-        public void Delete(int id)
+        /// <inheritdoc/>
+        public async Task DeleteEquipmentAsync(int id)
         {
-            this.repository.Delete(id);
+            await this.repository.DeleteAsync(id);
         }
     }
 }

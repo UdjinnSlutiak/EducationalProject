@@ -21,7 +21,7 @@ namespace EquipmentControll.Web
     public class Startup
     {
         /// <summary>
-        /// Initializes a new instance of the Startup class.
+        /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="configuration">IConfiguration instance with default configuration properties.</param>
         public Startup(IConfiguration configuration)
@@ -46,9 +46,9 @@ namespace EquipmentControll.Web
             services.AddDbContext<ProjectContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("ProjectDB")));
 
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IEquipmentRepository, EquipmentRepository>();
-            services.AddTransient<IRecordRepository, RecordRepository>();
+            services.AddTransient<IRepository<User>, Repository<User>>();
+            services.AddTransient<IRepository<Equipment>, Repository<Equipment>>();
+            services.AddTransient<IRepository<Record>, Repository<Record>>();
 
             services.AddTransient<IUserLogic, UserLogic>();
             services.AddTransient<IEquipmentLogic, EquipmentLogic>();

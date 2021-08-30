@@ -1,10 +1,11 @@
-﻿// <copyright file="UserLogic.cs" company="Eugene Slutiak">
-//     Equipment Controller Project.
+﻿// <copyright file="UserLogic.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace EquipmentControll.Logic
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using EquipmentControll.Domain.Models;
     using EquipmentControll.Domain.Repositories;
 
@@ -16,62 +17,46 @@ namespace EquipmentControll.Logic
         /// <summary>
         /// Variable uses to have access to user repository.
         /// </summary>
-        private IUserRepository repository;
+        private IRepository<User> repository;
 
         /// <summary>
-        /// Initializes a new instance of the UserLogic class.
+        /// Initializes a new instance of the <see cref="UserLogic"/> class.
         /// Receives IUserRepository instance by dependency injection to work with user repository.
         /// </summary>
         /// <param name="repository">IUserRepository instance received by dependency injection.</param>
-        public UserLogic(IUserRepository repository)
+        public UserLogic(IRepository<User> repository)
         {
             this.repository = repository;
         }
 
-        /// <summary>
-        /// Realization of IUserLogic Get method.
-        /// </summary>
-        /// <returns>IEnumerable collection of User inastances.</returns>
-        public IEnumerable<User> Get()
+        /// <inheritdoc/>
+        public async Task<IEnumerable<User>> GetUsersAsync(int offset, int count)
         {
-            return this.repository.Get();
+            return await this.repository.GetAsync(offset, count);
         }
 
-        /// <summary>
-        /// Realization of IUserLogic overloaded Get method.
-        /// </summary>
-        /// <param name="id">User to find Id value.</param>
-        /// <returns>User instance.</returns>
-        public User Get(int id)
+        /// <inheritdoc/>
+        public async Task<User> GetUserByIdAsync(int id)
         {
-            return this.repository.Get(id);
+            return await this.repository.GetAsync(id);
         }
 
-        /// <summary>
-        /// Realization of IUserLogic Create method.
-        /// </summary>
-        /// <param name="user">User instance to add to database.</param>
-        public void Create(User user)
+        /// <inheritdoc/>
+        public async Task CreateUserAsync(User user)
         {
-            this.repository.Create(user);
+            await this.repository.CreateAsync(user);
         }
 
-        /// <summary>
-        /// Realization of IUserLogic Update method.
-        /// </summary>
-        /// <param name="user">User instance that contains information to update.</param>
-        public void Update(User user)
+        /// <inheritdoc/>
+        public async Task UpdateUserAsync(User user)
         {
-            this.repository.Update(user);
+            await this.repository.UpdateAsync(user);
         }
 
-        /// <summary>
-        /// Realization of IUserLogic Delete method.
-        /// </summary>
-        /// <param name="id">User to delete Id value.</param>
-        public void Delete(int id)
+        /// <inheritdoc/>
+        public async Task DeleteUserAsync(int id)
         {
-            this.repository.Delete(id);
+            await this.repository.DeleteAsync(id);
         }
     }
 }

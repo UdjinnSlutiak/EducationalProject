@@ -1,10 +1,11 @@
-﻿// <copyright file="RecordLogic.cs" company="Eugene Slutiak">
-//     Equipment Controller Project.
+﻿// <copyright file="RecordLogic.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace EquipmentControll.Logic
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using EquipmentControll.Domain.Models;
     using EquipmentControll.Domain.Repositories;
 
@@ -16,63 +17,46 @@ namespace EquipmentControll.Logic
         /// <summary>
         /// Variable uses to have access to record repository.
         /// </summary>
-        private IRecordRepository repository;
+        private IRepository<Record> repository;
 
         /// <summary>
-        /// Initializes a new instance of the RecordLogic class.
+        /// Initializes a new instance of the <see cref="RecordLogic"/> class.
         /// Receives IRecordRepository instance by dependency injection to work with record repository.
         /// </summary>
         /// <param name="repository">IRecordRepository instance received by dependency injection.</param>
-        public RecordLogic(IRecordRepository repository)
+        public RecordLogic(IRepository<Record> repository)
         {
             this.repository = repository;
         }
 
-        /// <summary>
-        /// Realization of IRecordLogic Get method.
-        /// </summary>
-        /// <returns>IEnumerable collection of Record ToString strings.</returns>
-        public IEnumerable<Record> Get()
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Record>> GetRecordsAsync(int offset, int count)
         {
-            return this.repository.Get();
+            return await this.repository.GetAsync(offset, count);
         }
 
-        /// <summary>
-        /// Realization of IEquipmentLogic overloaded Get method.
-        /// </summary>
-        /// <param name="id">Equipment to find Id value.</param>
-        /// <returns>String of found Record instance ToString method.</returns>
-        public Record Get(int id)
+        /// <inheritdoc/>
+        public async Task<Record> GetRecordByIdAsync(int id)
         {
-            return this.repository.Get(id);
+            return await this.repository.GetAsync(id);
         }
 
-        /// <summary>
-        /// Realization of IRecordLogic Create method.
-        /// </summary>
-        /// <param name="record">'Partial' Record instance that contains SenderId, ReceiverId and EquipmentId parsed from JSON request.</param>
-        public void Create(Record record)
+        /// <inheritdoc/>
+        public async Task CreateRecordAsync(Record record)
         {
-            this.repository.Create(record);
+            await this.repository.CreateAsync(record);
         }
 
-        /// <summary>
-        /// Realization of IRecordLogic Update method.
-        /// </summary>
-        /// <param name="id">Record to update Id value.</param>
-        /// <param name="record">'Partial' Record instance that contains information to update.</param>
-        public void Update(Record record)
+        /// <inheritdoc/>
+        public async Task UpdateRecordAsync(Record record)
         {
-            this.repository.Update(record);
+            await this.repository.UpdateAsync(record);
         }
 
-        /// <summary>
-        /// Realization of IRecordLogic Delete method.
-        /// </summary>
-        /// <param name="id">Record to delete Id value.</param>
-        public void Delete(int id)
+        /// <inheritdoc/>
+        public async Task DeleteRecordAsync(int id)
         {
-            this.repository.Delete(id);
+            await this.repository.DeleteAsync(id);
         }
     }
 }

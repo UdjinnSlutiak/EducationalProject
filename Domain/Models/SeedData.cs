@@ -12,8 +12,8 @@
                 context.Database.Migrate();
             }
 
-            if (context.Equipments.Count() == 0 && context.Records.Count() == 0
-                && context.Users.Count() == 0)
+            if (!context.Equipments.Any() && !context.Records.Any()
+                && !context.Users.Any())
             {
                 context.Users.AddRange(
                     new User
